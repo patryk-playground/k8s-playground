@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: training-app-client
+spec:
+  containers:
+  - name: alpine
+    image: kamilbaran/nobleprog_training:alpine
+    command: ["/bin/sh", "-c", "while :; do curl -s --connect-timeout 2 http://training; sleep 1; done"]
+    imagePullPolicy: Always
+    resources:

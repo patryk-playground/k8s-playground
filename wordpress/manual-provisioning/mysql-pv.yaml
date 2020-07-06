@@ -1,0 +1,15 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-1-host-path
+  labels:
+    app.kubernetes.io/instance: wordpress-training
+    app.kubernetes.io/part-of: wordpress
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/tmp/pv-1"
+  persistentVolumeReclaimPolicy: Recycle

@@ -1,0 +1,8 @@
+version: '3'
+services:
+  mongo:
+    build: ./mongo
+  httpd:
+    build: ./httpd
+    volumes:
+    - ./httpd/html:/var/www/localhost/htdocs/

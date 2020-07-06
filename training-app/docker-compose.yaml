@@ -1,0 +1,8 @@
+version: '3'
+services:
+  alpine:
+    image: kamilbaran/nobleprog_training:alpine
+    build: ./alpine
+  training_app_v1:
+    image: kamilbaran/nobleprog_training:training_app_v1
+    build: ./app

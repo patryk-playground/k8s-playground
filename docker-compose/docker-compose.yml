@@ -1,0 +1,23 @@
+version: '3'
+networks:
+  skynet:
+volumes:
+  mongo_data:
+services:
+  mongo:
+    image: kamilbaran/nobleprog_training:mongo
+    command: ["/usr/bin/mongod", "--bind_ip_all"]
+    volumes:
+    - mongo_data:/data/db
+    networks:
+      skynet:
+        aliases:
+        - db_server
+  httpd:
+    image: kamilbaran/nobleprog_training:httpd
+    networks:
+    - skynet
+    ports:
+    - 80:80
+    environment:
+    - MONGO_CS=mongodb://db_server:27017

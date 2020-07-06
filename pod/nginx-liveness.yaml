@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: training
+  labels:
+    app: training
+spec:
+  selector:
+    matchLabels:
+      app: training
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: training
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19-alpine
+        resources:
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "echo Response from: $POD_NAME > /usr/share/nginx/html/index.html"]     
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name   
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 7
+          timeoutSeconds: 3
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 2
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: training
+  labels:
+    app: training
+spec:
+  type: NodePort
+  selector:
+    app: training
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30080
+
+
+# watch -n1 kubectl get service,pod,ep -o wide -l app=training
+# watch -n1 curl --silent --connect-timeout 1 node-s1:30080
+# kubectl exec training-9876f6cb9-rename -- rm /usr/share/nginx/html/index.html
+# more info: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/

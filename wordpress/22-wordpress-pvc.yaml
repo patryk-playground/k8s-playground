@@ -1,0 +1,17 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: wordpress-pvc
+  annotations:
+    volume.beta.kubernetes.io/storage-class: rook-ceph-block
+  labels:
+    app.kubernetes.io/name: apache
+    app.kubernetes.io/instance: wordpress-training
+    app.kubernetes.io/component: webserver
+    app.kubernetes.io/part-of: wordpress
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

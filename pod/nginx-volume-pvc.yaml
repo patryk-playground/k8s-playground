@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: training
+  labels:
+    app: training
+spec:
+  selector:
+    matchLabels:
+      app: training
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: training
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19-alpine
+        resources:
+        volumeMounts:
+        - name: html-data
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html-data
+        persistentVolumeClaim:
+          claimName: html-data
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: html-data
+  annotations:
+    volume.beta.kubernetes.io/storage-class: rook-ceph-block
+  labels:
+    app: training
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: training
+  labels:
+    app: training
+spec:
+  type: NodePort
+  selector:
+    app: training
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30080

@@ -1,0 +1,42 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+#  - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: wp-webserver
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: webserver
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 10.1.9.1/24
+    ports:
+    - protocol: TCP
+      port: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: wp-mysql
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: database
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          test: webserver

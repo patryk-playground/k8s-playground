@@ -1,0 +1,10 @@
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: training
+spec:
+  minAvailable: 2
+  #maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: training

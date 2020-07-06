@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: training
+  labels:
+    app.kubernetes.io/name: nginx
+    app.kubernetes.io/version: "1.19"
+    app.kubernetes.io/component: webserver
+    app.kubernetes.io/part-of: wordpress
+    app.kubernetes.io/instance: demo
+    app.kubernetes.io/managed-by: helm
+    run: nginx
+    custom-key: string-value
+spec:
+  selector:
+    matchLabels:
+      app: training
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: training
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19-alpine
+        resources:
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: training
+  labels:
+    app: training
+spec:
+  type: NodePort
+  selector:
+    app: training
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30080
