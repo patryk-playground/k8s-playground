@@ -27,7 +27,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: training8
+    app: training4
   ports:
   - port: 80
     protocol: TCP
