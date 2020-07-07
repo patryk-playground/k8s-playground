@@ -120,6 +120,29 @@ Add `host` section to Ingress config and re-apply, test with custom header passe
 
     Version: 1     Response from: training-7c68cf76cf-774xg     Counter: 9
 
+Update /etc/hosts and re-test with hostname:
+
+    # /etc/hosts
+    10.0.3.203      patryk.example.com
+
+    kubectl get pods -l app=training
+    
+    NAME                        READY   STATUS    RESTARTS   AGE
+    training-7c68cf76cf-5pffx   1/1     Running   0          121m
+    training-7c68cf76cf-774xg   1/1     Running   0          121m
+    training-7c68cf76cf-j7m8d   1/1     Running   0          121m
+
+    curl patryk.example.com/patryk
+    Version: 1     Response from: training-7c68cf76cf-5pffx     Counter: 9 
+    curl patryk.example.com/patryk
+    Version: 1     Response from: training-7c68cf76cf-774xg     Counter: 10 
+    curl patryk.example.com/patryk
+    Version: 1     Response from: training-7c68cf76cf-j7m8d     Counter: 7 
+    curl patryk.example.com/patryk
+    Version: 1     Response from: training-7c68cf76cf-5pffx     Counter: 10 
+
+Expected outcome: The traffic is routed to the existing pods in round-robin fashion.
+
 ## Best practices
 
 - In case of errors, update selector over label
