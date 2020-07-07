@@ -86,6 +86,7 @@ The app can accessed directly by the node port connection:
 
 4. Update http-mongo single pod to use NodePort.
 
+5. Add Ingress controller to `training-app-base` deployment.
 
 ## Best practices
 
