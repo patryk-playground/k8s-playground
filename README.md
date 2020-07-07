@@ -11,3 +11,8 @@
 - https://training-course-material.com/training/Category:Docker
 - https://training-course-material.com/training/Kubernetes_(KB)
 - http://ds.kamilbaran.pl/training/kube1.zip
+
+
+## Script
+
+- `custom_scripts.sh` will be sourced from `~/.bashrc` to provide some hands-on shortcuts and speed up work with K8S commands
