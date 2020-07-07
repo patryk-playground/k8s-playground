@@ -143,6 +143,14 @@ Update /etc/hosts and re-test with hostname:
 
 Expected outcome: The traffic is routed to the existing pods in round-robin fashion.
 
+6. Split `counter` app deployment into 2 separate deployments, add labels, services (mongo, httpd) and ingress (httpd). 
+
+Expected outcome:
+
+    curl patryk.example.com/mongo/
+    
+    Exception: No suitable servers found (`serverSelectionTryOnce` set): [connection refused calling ismaster on 'counter-mongo:27017']
+
 ## Best practices
 
 - In case of errors, update selector over label
