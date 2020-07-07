@@ -108,7 +108,7 @@ Expected outcome (HTML):
 
 ## Kubernetes installation
 
-    Follow instructions from [here](https://training-course-material.com/training/Kubernetes_(KB))
+Follow instructions from [here](https://training-course-material.com/training/Kubernetes_(KB))
 
 ## Kubernetes clean-up
 

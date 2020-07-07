@@ -84,6 +84,9 @@ The app can accessed directly by the node port connection:
 
     Version: 1     Response from: training-7c68cf76cf-j7m8d     Counter: 2 
 
+4. Update http-mongo single pod to use NodePort.
+
+
 ## Best practices
 
 - In case of errors, update selector over label
