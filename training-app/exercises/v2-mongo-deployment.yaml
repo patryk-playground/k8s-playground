@@ -11,17 +11,21 @@ spec:
   selector:
     matchLabels:
       app: counter
+      component: database
   replicas: 1
   template:
     metadata:
       labels:
         app: counter
+        component: database
     spec:
       containers:
       - name: mongo
         image: kamilbaran/nobleprog_training:mongo
         ports:
         - containerPort: 27017
+        command: ["/usr/bin/mongod", "--dbpath=/data/db", "--bind_ip_all"] 
+
 
 ---
 apiVersion: v1
@@ -30,11 +34,11 @@ metadata:
   name: counter-mongo
   labels:
     app: counter
-    component: frontend
+    component: database
 spec:
   selector:
     app: counter
-    component: frontend
+    component: database
   ports:
   - port: 27017
     protocol: TCP

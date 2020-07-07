@@ -148,8 +148,15 @@ Expected outcome: The traffic is routed to the existing pods in round-robin fash
 Expected outcome:
 
     curl patryk.example.com/mongo/
-    
+
     Exception: No suitable servers found (`serverSelectionTryOnce` set): [connection refused calling ismaster on 'counter-mongo:27017']
+
+After adding mongo command with `--bind_ip_all` option as part of the custom `command` in mongo deployment, it works as expected:
+
+    curl patryk.example.com/mongo/
+
+    [..]
+    I have been seen 3 times!!!<br />Response from: counter-httpd-7f554cf96b-5zntn</p></body></html>
 
 ## Best practices
 
