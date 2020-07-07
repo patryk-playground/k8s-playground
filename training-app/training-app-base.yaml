@@ -43,7 +43,8 @@ metadata:
     app: training
 spec:
   rules:
-  - http:
+  - host: patryk.example.com
+    http:
       paths:
       - path: /patryk
         pathType: Prefix

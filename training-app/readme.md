@@ -114,6 +114,11 @@ It can be seen in the logs of `counter` pod:
     
     172.16.69.192 - - [07/Jul/2020:12:45:44 +0000] "GET /patryk_counter HTTP/1.1" 404 286 "-" "curl/7.68.0"
 
+Add `host` section to Ingress config and re-apply, test with custom header passed to `curl`:
+
+    curl -H Host:patryk.example.com  10.0.3.203/patryk
+
+    Version: 1     Response from: training-7c68cf76cf-774xg     Counter: 9
 
 ## Best practices
 
