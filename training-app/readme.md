@@ -88,6 +88,33 @@ The app can accessed directly by the node port connection:
 
 5. Add Ingress controller to `training-app-base` deployment.
 
+Test Ingress controller connection to the `training` app:
+
+    curl 10.0.3.203/patryk
+
+    Version: 1     Response from: training-7c68cf76cf-774xg     Counter: 1
+
+Hoever it won't work for the `counter` app, as it is unable to find a path inside `httpd` virtual host configuration:
+
+    curl 10.0.3.203/patryk_counter
+
+    <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+    <html><head>
+    <title>404 Not Found</title>
+    </head><body>
+    <h1>Not Found</h1>
+    <p>The requested URL /patryk_counter was not found on this server.</p>
+    <hr>
+    <address>Apache/2.4.39 (Unix) Server at 10.0.3.203 Port 80</address>
+    </body></html>
+
+It can be seen in the logs of `counter` pod:
+
+    kubectl logs --tail=1 pod/counter-7c7d58c897-z4hqp httpd
+    
+    172.16.69.192 - - [07/Jul/2020:12:45:44 +0000] "GET /patryk_counter HTTP/1.1" 404 286 "-" "curl/7.68.0"
+
+
 ## Best practices
 
 - In case of errors, update selector over label
