@@ -46,9 +46,44 @@ Remove all resources:
     kubectl get svc,po,ep,deploy -o wide -l app=training
     kubectl get svc,po,ep,deploy -o wide -l app=demo1
 
+3. Change LB type to NodePort and set custom NodePort parameter for the `training-app-base` deployment.
 
+Expected result: 
 
+    kubectl get pod,svc,ep,deploy  -l app=training 
     
+    NAME                            READY   STATUS    RESTARTS   AGE
+    pod/training-7c68cf76cf-5pffx   1/1     Running   0          18m
+    pod/training-7c68cf76cf-774xg   1/1     Running   0          18m
+    pod/training-7c68cf76cf-j7m8d   1/1     Running   0          18m
+
+    NAME               TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+    service/training   NodePort   10.98.196.99   <none>        80:31081/TCP   18m
+
+    NAME                 ENDPOINTS                                           AGE
+    endpoints/training   172.16.140.6:80,172.16.69.193:80,172.16.69.254:80   18m
+
+    NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+    deployment.apps/training   3/3     3            3           18m
+    student@student:~/code/k8s-playground/training-app$ 
+
+Grab nodes internal IPs first:
+
+    kubectl get nodes -o wide
+
+    NAME           STATUS   ROLES    AGE   VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE           KERNEL-VERSION     CONTAINER-RUNTIME
+    k8s-master     Ready    master   15d   v1.18.4   10.0.3.205    <none>        Ubuntu 20.04 LTS   5.4.0-39-generic   docker://19.3.11
+    k8s-worker-1   Ready    <none>   15d   v1.18.4   10.0.3.201    <none>        Ubuntu 20.04 LTS   5.4.0-39-generic   docker://19.3.11
+    k8s-worker-2   Ready    <none>   15d   v1.18.4   10.0.3.202    <none>        Ubuntu 20.04 LTS   5.4.0-39-generic   docker://19.3.11
+    k8s-worker-3   Ready    <none>   15d   v1.18.4   10.0.3.203    <none>        Ubuntu 20.04 LTS   5.4.0-39-generic   docker://19.3.11
+    k8s-worker-4   Ready    <none>   15d   v1.18.4   10.0.3.204    <none>        Ubuntu 20.04 LTS   5.4.0-39-generic   docker://19.3.11
+
+The app can accessed directly by the node port connection:
+
+    curl 10.0.3.202:32080
+
+    Version: 1     Response from: training-7c68cf76cf-j7m8d     Counter: 2 
+
 ## Best practices
 
 - In case of errors, update selector over label

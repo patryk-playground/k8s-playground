@@ -26,10 +26,11 @@ metadata:
   labels:
     app: training
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: training
   ports:
   - port: 80
     protocol: TCP
     targetPort: 80
+    nodePort: 32080
