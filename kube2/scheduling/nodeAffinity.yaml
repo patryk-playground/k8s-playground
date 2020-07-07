@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: training
+  labels:
+    app: training
+spec:
+  selector:
+    matchLabels:
+      app: training
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: training
+    spec:
+      containers:
+      - name: training
+        image: kamilbaran/nobleprog_training:training_app_v1
+        resources:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: datacenter
+                operator: In
+                values:
+                - pl
+                - ca
+
+# kubectl label nodes k8s-worker-1 --overwrite datacenter=pl

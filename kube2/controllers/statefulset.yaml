@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: training
+  labels:
+    app: training
+    example: statefulset
+spec:
+  selector:
+    matchLabels:
+      app: training
+  replicas: 3
+  serviceName: training
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: training
+        example: statefulset
+    spec:
+      containers:
+      - name: training
+        image: kamilbaran/nobleprog_training:training_app_v1
+        imagePullPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: training
+  labels:
+    app: training
+    example: statefulset
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app: training
+    example: statefulset
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80

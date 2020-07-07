@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: training-v1
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: training-v1
+  template:
+    metadata:
+      labels:
+        app: training-v1
+    spec:
+      containers:
+      - name: training-v1
+        image: kamilbaran/nobleprog_training:training_app_v1
+        resources:
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: training-v1
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: training-v1
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: training-v2
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: training-v2
+  template:
+    metadata:
+      labels:
+        app: training-v2
+    spec:
+      containers:
+      - name: training-v2
+        image: kamilbaran/nobleprog_training:training_app_v2
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: training-v2
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: training-v2
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80

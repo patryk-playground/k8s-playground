@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: training
+  labels:
+    app: training
+    example: deployment
+spec:
+  selector:
+    matchLabels:
+      app: training
+      example: deployment      
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: training
+        example: deployment
+    spec:
+      containers:
+      - name: training
+        image: kamilbaran/nobleprog_training:training_app_v1
+        imagePullPolicy: Always
+        resources:
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: training
+  labels:
+    app: training
+    example: deployment
+spec:
+  type: NodePort
+  selector:
+    app: training
+    example: deployment
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30080

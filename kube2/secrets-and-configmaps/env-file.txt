@@ -1,0 +1,3 @@
+training=Kubernetes
+company=NobleProg
+trainer=Kamil Baran

@@ -1,0 +1,39 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: training
+spec:
+  template:
+    metadata:
+      labels:
+        app: training
+    spec:
+      containers:
+      - name: training
+        image: kamilbaran/nobleprog_training:httpd
+        env:
+        - name: TRAINING
+          valueFrom:
+            configMapKeyRef:
+              name: html-data-configmap
+              key: training
+        - name: COMPANY
+          valueFrom:
+            configMapKeyRef:
+              name: html-data-configmap
+              key: company
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: training
+spec:
+  type: NodePort
+  selector:
+    app: training
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 32080

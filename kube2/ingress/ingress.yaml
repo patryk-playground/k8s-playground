@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: training
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /v1
+        backend:
+          serviceName: training-v1
+          servicePort: 80
+      - path: /v2
+        backend:
+          serviceName: training-v2
+          servicePort: 80
+
+# curl -H Host:example.com http://10.0.3.?/v1
