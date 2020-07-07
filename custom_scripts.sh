@@ -13,7 +13,7 @@ function show_ns() {
         ns=$(kubectl config view --minify | awk  '/namespace:/ {print $2}')
     fi
     echo "Current namespace=$ns" 
-    k get deploy,pods,replicasets,ep,svc,ing -o wide -n $ns --show-labels
+    k get deploy,pod,rs,ds,sts,ep,svc,ing -o wide -n $ns --show-labels
 }
 function switch_ns() {
     ns=$1

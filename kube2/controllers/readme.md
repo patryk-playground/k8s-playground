@@ -52,3 +52,7 @@ try to scale up and down
 ```
 kubectl scale statefulset training --replicas=10
 ```
+
+Notes:
+
+- statefulset pods are created/destroyed on at a time. Destroying from latest (higher index).
