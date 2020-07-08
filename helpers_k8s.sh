@@ -25,4 +25,4 @@ function switch_ns() {
     fi
 }
 
-[[ $TERM != "screen" ]] && exec tmux
+[[ $TERM != "screen" ]] && exec tmux -f ~/.tmux.conf
