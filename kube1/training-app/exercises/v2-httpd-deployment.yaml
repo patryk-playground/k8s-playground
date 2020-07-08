@@ -25,7 +25,19 @@ spec:
         - containerPort: 80
         env:
         - name: MONGO_CS
-          value: mongodb://counter-mongo:27017  
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: MONGO_CS
+
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: mongo-secret
+data:
+  MONGO_CS: bW9uZ29kYjovL2NvdW50ZXItbW9uZ286MjcwMTcK
 
 ---
 apiVersion: v1

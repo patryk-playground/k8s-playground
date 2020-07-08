@@ -164,6 +164,16 @@ After adding mongo command with `--bind_ip_all` option as part of the custom `co
 
 2. Apply configmaps (example 2).
 
+3. Replace MONGO_CS env variable with secret. 
+
+Test:
+
+    curl patryk.example.com/mongo/
+
+Exepcted outcome:
+
+    I have been seen 1188 times!!!<br />Response from: counter-httpd-795f66645c-gxjhd
+    
 ## Best practices
 
 - In case of errors, update selector over label
