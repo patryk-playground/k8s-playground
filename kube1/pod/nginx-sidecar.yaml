@@ -25,7 +25,7 @@ spec:
       - name: content-maker
         image: alpine:latest
         command: ["/bin/sh"]
-        args: ["-c", "while :; do date > /tmp/html/index.html ; sleep 5; done"]
+        args: ["-c", "while :; do date >> /tmp/html/index.html ; sleep 5; done"]
         volumeMounts:
         - name: html-data
           mountPath: /tmp/html
@@ -48,4 +48,4 @@ spec:
   - port: 80
     protocol: TCP
     targetPort: 80
-    nodePort: 30080
+    nodePort: 32080

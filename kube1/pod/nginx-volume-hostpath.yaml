@@ -28,6 +28,8 @@ spec:
           path: /tmp/html
           type: DirectoryOrCreate 
           #type: Directory, DirectoryOrCreate, FileOrCreate, File, Socket, CharDevice, BlockDevice
+      nodeSelector:
+        kubernetes.io/hostname: k8s-worker-3
 
 ---
 apiVersion: v1
@@ -44,4 +46,4 @@ spec:
   - port: 80
     protocol: TCP
     targetPort: 80
-    nodePort: 30080
+    nodePort: 32080
