@@ -25,4 +25,8 @@ function switch_ns() {
     fi
 }
 
+function show_storage(){
+    kubectl get sc,pvc,pv --all-namespaces -o wide
+}
+
 [[ $TERM != "screen" ]] && exec tmux -f ~/.tmux.conf
