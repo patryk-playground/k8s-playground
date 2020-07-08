@@ -162,6 +162,7 @@ After adding mongo command with `--bind_ip_all` option as part of the custom `co
 
 1. Update mongo deployment to store data inside volume.
 
+2. Apply configmaps (example 2).
 
 ## Best practices
 
