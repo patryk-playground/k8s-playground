@@ -158,6 +158,11 @@ After adding mongo command with `--bind_ip_all` option as part of the custom `co
     [..]
     I have been seen 3 times!!!<br />Response from: counter-httpd-7f554cf96b-5zntn</p></body></html>
 
+# Day 3
+
+1. Update mongo deployment to store data inside volume.
+
+
 ## Best practices
 
 - In case of errors, update selector over label
