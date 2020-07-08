@@ -10,22 +10,29 @@
 
 ## Certification
 
+- Open Source [Curriculum for CNCF Certification Courses](https://github.com/cncf/curriculum)
+- Candidate [handbook](https://docs.linuxfoundation.org/tc-docs/certification/lf-candidate-handbook)
+- Learn [Kubernetes using Interactive Browser-Based Scenarios](https://www.katacoda.com/courses/kubernetes)
 - [Certified Kubernetes Administrator (CKA) Program](https://www.cncf.io/certification/cka/)
 - [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/)
 
 ## Online courses
 
 ### CKA
+- Online resources that will help you prepare for taking the Kubernetes Certified Administrator Certification [exam](https://github.com/walidshaari/Kubernetes-Certified-Administrator)
+- Linux Acadamy [CKA](https://linuxacademy.com/course/cloud-native-certified-kubernetes-administrator-cka/)
 - O'reilly Certified Kubernetes Administrator (CKA) [By Sander van Vugt, April 2020](https://learning.oreilly.com/videos/certified-kubernetes-administrator/)
 - O'reilly [Kubernetes on the Cloud and the CNCF CKA Certification, June 2018](https://learning.oreilly.com/videos/kubernetes-on-the/9781789531565)
 
 ### CKAD
 
+- CKAD [exercises](https://github.com/dgkanatsios/CKAD-exercises)
 - Certified Kubernetes Application Developer (CKAD) Prep Course, [by Benjamin Muschko, July 2019](https://learning.oreilly.com/videos/certified-kubernetes-application/9780136677628)
 - Certified Kubernetes Application Developer (CKAD), [by Sander van Vugt, Janurary 2020](https://learning.oreilly.com/videos/certified-kubernetes-application/9780136677628)
 
 ### Learning
 
+- Kubernetes [the hard way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
 - O'Reilly [Software Architecture Conference 2020 - New York, NY](https://learning.oreilly.com/videos/oreilly-software-architecture/0636920333777)
 - O'reilly The Ultimate Kubernetes [Bootcamp by School of Devops, July 2018](https://learning.oreilly.com/videos/the-ultimate-kubernetes/9781789534115)
 - O'reilly [Hands-on Kubernetes, February 2020](https://learning.oreilly.com/videos/hands-on-kubernetes/9780136702887)
