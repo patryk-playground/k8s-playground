@@ -4,6 +4,9 @@ kind: Deployment
 metadata:
   name: training
 spec:
+  selector:
+    matchLabels:
+      app: training
   template:
     metadata:
       labels:
@@ -32,4 +35,4 @@ spec:
   ports:
   - port: 80
     targetPort: 80
-    nodePort: 32080
+    nodePort: 32081
