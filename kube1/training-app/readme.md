@@ -173,7 +173,19 @@ Test:
 Exepcted outcome:
 
     I have been seen 1188 times!!!<br />Response from: counter-httpd-795f66645c-gxjhd
-    
+
+4. Set up a new cluster
+
+To get a new token: `kubeadm token create --print-join-command`
+
+5. Fix problem with metrics server:
+
+    kubectl get configmaps --namespace kube-system coredns -o yaml --context=k8s-shared-admin@k8s-shared
+
+6. Set up metric service:
+
+    kubectl top node
+
 ## Best practices
 
 - In case of errors, update selector over label

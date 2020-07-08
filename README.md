@@ -4,6 +4,7 @@
 - Kubernetes [blog](https://kubernetes.io/blog/)
 - Kubernetes [concepts](https://kubernetes.io/docs/concepts/)
 - Kuberentes [tasks](https://kubernetes.io/docs/tasks/)
+- Kubernetes [troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
 - Kubernetes [best practices](https://kubernetes.io/docs/setup/best-practices/)
 - Kubernetes project [in Github](https://github.com/kubernetes/)
 
@@ -29,6 +30,11 @@
 - O'reilly The Ultimate Kubernetes [Bootcamp by School of Devops, July 2018](https://learning.oreilly.com/videos/the-ultimate-kubernetes/9781789534115)
 - O'reilly [Hands-on Kubernetes, February 2020](https://learning.oreilly.com/videos/hands-on-kubernetes/9780136702887)
 - LinkedIn Learning, [Master Cloud-Native Infrastructure with Kubernetes](https://www.linkedin.com/learning/paths/master-cloud-native-infrastructure-with-kubernetes?u=2095204)
+
+
+## Extensions
+
+- A handy tool to switch context, namespaces in the [multi-cluster environment](https://github.com/blendle/kns)
 
 ## Training materials
 
