@@ -186,6 +186,12 @@ To get a new token: `kubeadm token create --print-join-command`
 
     kubectl top node
 
+7. Deploy Traefik (ServiceAccount, ClusterRole)
+
+8. Deploy coutner app into a new cluster.
+
+After this step Traefik dashboard should be available via HTTP address defined in Ingress controller: `http://patryk.pg.com:8080/dashboard/`
+
 ## Best practices
 
 - In case of errors, update selector over label
