@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  brand: procter
+  colour: blue
+  month: July
+  number: "10"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: patryk
+  namespace: default
