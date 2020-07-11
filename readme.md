@@ -38,6 +38,9 @@
 - O'reilly [Hands-on Kubernetes, February 2020](https://learning.oreilly.com/videos/hands-on-kubernetes/9780136702887)
 - LinkedIn Learning, [Master Cloud-Native Infrastructure with Kubernetes](https://www.linkedin.com/learning/paths/master-cloud-native-infrastructure-with-kubernetes?u=2095204)
 
+### Artciles (tips)
+
+- https://medium.com/better-programming/kubernetes-tips-create-pods-with-imperative-commands-in-1-18-62ea6e1ceb32
 
 ## Extensions
 

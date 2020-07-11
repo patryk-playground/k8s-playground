@@ -30,4 +30,4 @@ function show_storage(){
     kubectl get sc,pvc,pv --all-namespaces -o wide
 }
 
-[[ $TERM != "screen" ]] && exec tmux -f ~/.tmux.conf
+# [[ $TERM != "screen" ]] && exec tmux -f ~/.tmux.conf
