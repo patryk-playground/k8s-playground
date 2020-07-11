@@ -1,6 +1,7 @@
 # Below scripts will be added to ~/.bashrc of the local user
 
 alias k=kubectl
+complete -F __start_kubectl k
 
 function current_ns() {
   ns=$(kubectl config view --minify | awk  '/namespace:/ {print $2}')
