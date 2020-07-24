@@ -11,7 +11,7 @@ Solution:
     k config set-context web-servers --cluster=kubernetes --user=kubernetes@admin --namespace=web-servers
     k create ns web-servers
     k run app-nginx-118 --image=nginx:1.18  --dry-run=client -o yaml > task01.yaml
-    k apply -f task01.yaml 
+    k apply -f task01.yaml
     k get pods
 
 ### Task 2
@@ -44,7 +44,7 @@ It should contain the following keys: number, colour, brand, month. The values s
 
     k create configmap patryk --from-env-file=task05.env --namespace=default --dry-run=client -o yaml >task05.yaml
     k apply -f task05.yaml
-    k get configmaps --context=k8s-shared-admin@k8s-shared --namespace=default 
+    k get configmaps --context=k8s-shared-admin@k8s-shared --namespace=default
 
 ### Task 6
 Environment: shared cluster
@@ -68,7 +68,7 @@ Test:
 
     curl 10.0.3.243:30087
 
-Expected outcome: 
+Expected outcome:
 
     <html><head><title>Task 7</title></head><body><p>This is the content for the Task 7.</p></body></html>
 
@@ -77,3 +77,43 @@ Environment: your private cluster
 Play with any other web server. You can use any image you like but do not use Nginx.
 You can use any namespace, any controller, any way of exposing it.
 Add a label task of value eight to all resources that you will create during this task.
+
+### Task 9 - growing the cluster
+Environment: your private cluster
+Add the third worker node to your cluster - you should see a VM called your-name-w3.
+Connect to the new VM and install necessary Kubernetes components.
+Then on the master node, generate the new token and join command. The old one that you used during the course won't work as it has already expired.
+Execute join command on the new worker node and verify that you see one master and three workers on the node list.
+Hints: hint 1, hint 2 hint 3, hint 4
+
+### Task 10 - labelling nodes
+Environment: your private cluster
+Add labels datacenter and type to the nodes.
+Master node and worker nodes w1 and w2 should have datacenter value set to PL and worker node w3 set to DE.
+Worker node w1 should have type value set to data-node and worker nodes w2 and w3 set to computing-node.
+
+### Task 11 - rolling upgrade
+Environment: your private cluster, namespace: upgrades
+Create a new deployment called t11-app and a service with the same name. Use the image nginx:alpine.
+Scale the deployment to 5 replicas and verify that it works.
+Upgrade the application to the new version. Use the image httpd:alpine. Verify that it works.
+Downgrade to the first version, verify that it works and scale the deployment to 0 (zero) replicas.
+
+### Task 12 - rolling upgrade
+Environment: your private cluster, namespace: upgrades
+Create a new deployment called t12-app and a service with the same name. Use the image nginx:alpine.
+Scale the deployment to 2 replicas and verify that it works.
+Upgrade the application to the new version. Use the image tomcat:jdk11-openjdk-slim.
+Troubleshoot the application.
+Hints: hint 1
+
+### Task 13 - canary deployment
+Environment: your private cluster, namespace: upgrades
+There is an app already running in your cluster. Service called t13-app is sending all the requests to version v1 of the app.
+Change the service to send requests to both v1 and v2 version of the app. Set the ratio to 3:1 (25% of requests to the version v2).
+You need to start all the missing resources. Do not modify labels of already created resources and make sure that the labels of new resources are using the same label names.
+
+### Task 14 - troubleshooting
+Environment: your private cluster
+There is an app already running in your cluster. All of its components are labelled app=app-te7b.
+Fix the problem with the application.
