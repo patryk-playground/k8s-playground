@@ -10,7 +10,7 @@ Solution:
     k config get-contexts
     k config set-context web-servers --cluster=kubernetes --user=kubernetes@admin --namespace=web-servers
     k create ns web-servers
-    k run app-nginx-118 --image=nginx:1.18  --dry-run=client -o yaml > task01.yaml
+    k run app-nginx-118 --image=nginx:1.18-alpine  --dry-run=client -o yaml > task01.yaml
     k apply -f task01.yaml
     k get pods
 
