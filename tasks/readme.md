@@ -175,6 +175,22 @@ There is an app already running in your cluster. Service called t13-app is sendi
 Change the service to send requests to both v1 and v2 version of the app. Set the ratio to 3:1 (25% of requests to the version v2).
 You need to start all the missing resources. Do not modify labels of already created resources and make sure that the labels of new resources are using the same label names.
 
+Get existing resources:
+
+    k get all -l name=t13-app
+    k get deploy t13-app -o yaml  > task13_deploy.yaml
+    k get svc t13-app -o yaml  > task13_service.yaml
+
+    k scale --replicas=3 deployment t13-app
+    k describe deployments.apps t13-app
+    k create deployment t13-app --image=kamilbaran/training:training-app-v2 --namespace=upgrades --dry-run=client -o yaml > task13_canary.yaml
+
+    Change deployment name to avoid overriding existing deployment, rename label app=>name and add version=v2 label. Apply.
+
+    kubectl edit service t13-app
+    Update service by removing version number, so that traffic will be spread between existing pods in round-robin fashion.
+
+
 ### Task 14 - troubleshooting
 Environment: your private cluster
 There is an app already running in your cluster. All of its components are labelled app=app-te7b.

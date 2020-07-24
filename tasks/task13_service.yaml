@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: t13-app
+  name: t13-app
+  namespace: upgrades
+spec:
+  ports:
+  - nodePort: 31496
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    name: t13-app
+    version: v1
+  type: NodePort

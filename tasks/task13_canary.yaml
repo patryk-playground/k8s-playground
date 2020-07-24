@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    name: t13-app
+    version: v2
+  name: t13-app-canary
+  namespace: upgrades
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: t13-app
+      version: v2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: t13-app
+        version: v2
+    spec:
+      containers:
+      - image: kamilbaran/training:training-app-v2
+        name: training
+        resources: {}
+status: {}
