@@ -159,6 +159,16 @@ Upgrade the application to the new version. Use the image tomcat:jdk11-openjdk-s
 Troubleshoot the application.
 Hints: hint 1
 
+    k create deployment t12-app --image=nginx:alpine -n upgrades --dry-run=client -o yaml >task12.yaml
+    k create svc nodeport t12-app -n upgrades --tcp=80:80 --node-port=30912 --dry-run=client -o yaml >>task12.yaml 
+    curl 10.0.3.243:30912
+   
+    k get pods -l app=t12-app | tail -2  | awk '{print $1}' | xargs -I name kubectl logs name
+
+    k set image deployment/t12-app --namespace=upgrades nginx=tomcat:jdk11-openjdk-slim
+
+Problem:  Fix targetPort in service to point at Tomcat HTTP port.
+
 ### Task 13 - canary deployment
 Environment: your private cluster, namespace: upgrades
 There is an app already running in your cluster. Service called t13-app is sending all the requests to version v1 of the app.
