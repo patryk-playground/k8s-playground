@@ -44,7 +44,7 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: httpd-task08
+    app: task08
   type: NodePort
 status:
   loadBalancer: {}
