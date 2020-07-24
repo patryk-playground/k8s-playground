@@ -133,6 +133,24 @@ Scale the deployment to 5 replicas and verify that it works.
 Upgrade the application to the new version. Use the image httpd:alpine. Verify that it works.
 Downgrade to the first version, verify that it works and scale the deployment to 0 (zero) replicas.
 
+    k create ns upgrades
+    k config set-context upgrades  --namespace=upgrades --cluster=kubernetes --user=kubernetes-admin 
+    k config use-context upgrades
+
+    k create deployment t11-app --image=nginx:alpine -n upgrades --dry-run=client -o yaml >task11.yaml
+    k create svc nodeport t11-app -n upgrades --tcp=80:80 --node-port=30911 --dry-run=client -o yaml >>task11.yaml 
+    curl 10.0.3.243:30911 
+    k get pods -l app=t11-app | tail -5  | awk '{print $1}' | xargs -I name kubectl logs name
+
+    k set image deployment/t11-app --namespace=upgrades nginx=httpd:alpine  --dry-run=client -o yaml  >task11_rolling_update.yaml
+
+    k rollout history deployment t11-app 
+    k rollout undo deployment t11-app --to-revision=1 
+    
+    k get pods -l app=t11-app | tail -5  | awk '{print $1}' | xargs -I name kubectl logs name
+    
+    k scale deployment t11-app --replicas=0 
+
 ### Task 12 - rolling upgrade
 Environment: your private cluster, namespace: upgrades
 Create a new deployment called t12-app and a service with the same name. Use the image nginx:alpine.

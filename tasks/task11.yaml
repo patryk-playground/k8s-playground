@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: t11-app
+  name: t11-app
+  namespace: upgrades
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: t11-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: t11-app
+    spec:
+      containers:
+      - image: nginx:alpine
+        name: nginx
+        resources: {}
+status: {}
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: t11-app
+  name: t11-app
+  namespace: upgrades
+spec:
+  ports:
+  - name: 80-80
+    nodePort: 30911
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: t11-app
+  type: NodePort
+status:
+  loadBalancer: {}
