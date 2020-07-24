@@ -50,6 +50,7 @@
 
 - https://training-course-material.com/training/Category:Docker
 - https://training-course-material.com/training/Kubernetes_(KB)
+- Tasks [list](https://ds.kamilbaran.pl/training/cka-ckad-sample-tasks.html)
 - Exercises [part 1](http://ds.kamilbaran.pl/training/kube1.zip)
 - Exercises [part 2](http://ds.kamilbaran.pl/training/kube2.zip)
 
