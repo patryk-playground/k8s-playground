@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: task08
+    task: eight
+  name: task08
+  namespace: web-servers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: task08
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: task08
+    spec:
+      containers:
+      - image: httpd:2.4-alpine
+        name: httpd
+        resources: {}
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: httpd-task08
+    task: eight
+  name: httpd-task08
+  namespace: web-servers
+spec:
+  ports:
+  - name: 80-80
+    nodePort: 30908
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: httpd-task08
+  type: NodePort
+status:
+  loadBalancer: {}
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+  namespace: web-servers
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    task: eight
+spec:
+  rules:
+  - host: task08.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: httpd-task08
+          servicePort: 80
+

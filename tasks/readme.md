@@ -78,6 +78,11 @@ Play with any other web server. You can use any image you like but do not use Ng
 You can use any namespace, any controller, any way of exposing it.
 Add a label task of value eight to all resources that you will create during this task.
 
+    k create deployment task08 --image=httpd:2.4-alpine --namespace=web-servers  --dry-run=client -o yaml >task08.yaml 
+    k create svc nodeport httpd-task08 --tcp=80:80 --node-port=30900 --dry-run=client -o yaml >> task08.yaml 
+
+    Add labels and ingress definition. Add host configuration inside ingress. 
+
 ### Task 9 - growing the cluster
 Environment: your private cluster
 Add the third worker node to your cluster - you should see a VM called your-name-w3.
@@ -86,11 +91,35 @@ Then on the master node, generate the new token and join command. The old one th
 Execute join command on the new worker node and verify that you see one master and three workers on the node list.
 Hints: hint 1, hint 2 hint 3, hint 4
 
+Solution: After logged in to new worker node, install docker and k8s components: 
+
+    sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo apt-get update && apt-cache madison docker-ce
+    sudo apt-get install -y docker-ce=5:19.03.8~3-0~ubuntu-bionic
+    sudo usermod -aG docker student
+
+    sudo apt-get update && sudo apt-get install -y apt-transport-https bash-completion curl
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    sudo add-apt-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+    sudo apt-get update && sudo apt-get install -y kubeadm=1.17.2-00 kubectl=1.17.2-00 kubelet=1.17.2-00
+    source <(kubectl completion bash) && echo "source <(kubectl completion bash)" >> ~/.bashrc
+    source <(kubeadm completion bash) && echo "source <(kubeadm completion bash)" >> ~/.bashrc
+
+Generate token and join worker node to the master:
+
+    kubeadm token create --print-join-command
+    kubeadm join 10.0.3.242:6443 --token xyz
+
+
 ### Task 10 - labelling nodes
 Environment: your private cluster
 Add labels datacenter and type to the nodes.
 Master node and worker nodes w1 and w2 should have datacenter value set to PL and worker node w3 set to DE.
 Worker node w1 should have type value set to data-node and worker nodes w2 and w3 set to computing-node.
+
+    kubectl get node --selector='!node-role.kubernetes.io/master'
 
 ### Task 11 - rolling upgrade
 Environment: your private cluster, namespace: upgrades
