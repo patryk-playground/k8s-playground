@@ -120,6 +120,11 @@ Master node and worker nodes w1 and w2 should have datacenter value set to PL an
 Worker node w1 should have type value set to data-node and worker nodes w2 and w3 set to computing-node.
 
     kubectl get node --selector='!node-role.kubernetes.io/master'
+    
+    k label nodes k8s-master datacenter=PL
+    k label nodes k8s-worker-1 datacenter=PL type=data-node
+    k label nodes k8s-worker-2 datacenter=PL type=computing-node
+    k label nodes k8s-worker-3 datacenter=DE type=computing-node
 
 ### Task 11 - rolling upgrade
 Environment: your private cluster, namespace: upgrades
