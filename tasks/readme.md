@@ -195,3 +195,14 @@ Get existing resources:
 Environment: your private cluster
 There is an app already running in your cluster. All of its components are labelled app=app-te7b.
 Fix the problem with the application.
+
+    k get all -l app=app-te7b --namespace web-servers
+    k config use-context web-servers
+    k describe svc t14-app 
+    k edit svc t14-app
+
+Add missing selector to point at the existing deployment, test with curl:
+
+    curl node_ip:nodeport
+
+Expected outcome: Nginx home page returned.
