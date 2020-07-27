@@ -206,3 +206,88 @@ Add missing selector to point at the existing deployment, test with curl:
     curl node_ip:nodeport
 
 Expected outcome: Nginx home page returned.
+
+## Task 15 - controllers
+
+    Environment: your private cluster, namespace: controllers
+    Start the app on all worker nodes in the cluster.
+    Expose the app to external traffic.
+    Call it app-t15v1, use image kamilbaran/training:app-v1.
+
+## Task 16 - controllers
+
+    Environment: your private cluster, namespace: controllers
+    Start the app on all nodes (including control-plane node) in the cluster.
+    Expose the app to external traffic.
+    Call it app-t16v1, use image kamilbaran/training:app-v1.
+
+## Task 17 - controllers
+
+    Environment: your private cluster, namespace: controllers
+    Start the app on all nodes labelled datacenter=PL.
+    Expose the app to external traffic.
+    Call it app-t17v1, use image kamilbaran/training:app-v1.
+
+## Task 18 - controllers
+
+    Environment: your private cluster, namespace: controllers
+    Start the stateful app with three replicas. Choose the best type of controller.
+    Call it app-t18v1, use image kamilbaran/training:app-v1.
+    Run nslookup app-t18v1 in one of the created pods and write the output into /home/student/training/tasks/task-18.txt on your desktop machine.
+
+## Task 19 - controllers, counter app
+
+    Environment: your private cluster, namespace: counter
+    Start the MongoDB with three replicas.
+    Call it mongo, use image kamilbaran/training:mongo.
+    In this task, you should skip volumes and MongoDB data persistence.
+    Overwrite the image default CMD. Start mongod process with the following flags: --bind_ip_app --replSet=test
+    Change the DNS configuration of the stateful set by adding searches: mongo.counter.svc.cluster.local
+    Hints: hint 1
+
+## Task 20 - controllers, counter app
+
+    Environment: your private cluster, namespace: counter
+    Configure the MongoDB from a previous task.
+    Start a shell in the mongo-0 pod and then connect to MongoDB running in this pod by running mongo command. This will connect to the instance running on the localhost.
+    In the MongoDB shell run the following commands:
+        rs.initiate()
+        rs.add("mongo-1")
+        rs.add("mongo-2")
+    After executing the above commands, you can check the status of a MongoDB replica set. If you see the following output, it means that the replica was initialised successfully.
+        rs.status().members[0].stateStr should show PRIMARY
+        rs.status().members[1].stateStr should show SECONDARY
+        rs.status().members[2].stateStr should show SECONDARY
+    Close MongoDB shell and Linux shell.
+
+## Task 21 - counter app
+
+    Environment: your private cluster, namespace: counter
+    Create a new deployment called counter-v2. Use the image kamilbaran/training:httpd and expose it to external traffic by creating a service with the same name.
+    Set environment variable MONGO_CS to mongodb://mongo-0:27017,mongo-1:27017,mongo-2:27017/?replicaSet=test
+    Change the DNS configuration of the deployment by adding searches: mongo.counter.svc.cluster.local
+    Verify that it works.
+
+## Task 22 - counter app
+
+    Environment: your private cluster, namespace: counter
+    Create a new deployment called counter-v3. Use the same configuration as in task 21 with one exception.
+    This time set environment variable MONGO_CS based on the value stored in secret. Call the secret counter-config.
+    Verify that it works.
+
+## Task 23 - counter app
+
+    Environment: your private cluster, namespace: counter
+    Create a new deployment called counter-v4. Use the same configuration as in task 22 with one exception.
+    This time mount a secret as a file. Use environment variable MONGO_CS_FILE to specify the location of the file.
+    Verify that it works.
+
+## Task 24 - secrets
+
+    Environment: your private cluster, namespace: web-servers
+    Create a new deployment. Call it app-t24v1, use image user4demo/training:app-v1.
+    The repository is password protected. Pass required credentials to Kubernetes:
+        login: user4demo
+        password: SecretPassword
+        email: user4demo@kamilbaran.pl
+    Hints: hint 1
