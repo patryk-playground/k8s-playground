@@ -259,6 +259,12 @@ Expected outcome: Nginx home page returned.
     Call it app-t18v1, use image kamilbaran/training:app-v1.
     Run nslookup app-t18v1 in one of the created pods and write the output into /home/student/training/tasks/task-18.txt on your desktop machine.
 
+    Copy Stateful Set config from docs and update it to create 3 replicas.
+    Query it and dump nslookup result:
+
+    k exec -it app-t18v1-0  -- nslookup app-t18v1 > /home/student/training/tasks/task-18.txt
+
+
 ## Task 19 - controllers, counter app
 
     Environment: your private cluster, namespace: counter

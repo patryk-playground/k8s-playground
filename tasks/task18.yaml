@@ -1,0 +1,40 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-t18v1
+  labels:
+    app: app-t18v1
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: app-t18v1
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: app-t18v1
+  labels:
+    app: app-t18v1
+spec:
+  selector:
+    matchLabels:
+      app: app-t18v1 # has to match .spec.template.metadata.labels
+  serviceName: "app-t18v1"
+  replicas: 3 
+  template:
+    metadata:
+      labels:
+        app: app-t18v1 # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: app-t18v1
+        image: kamilbaran/training:app-v1
+        ports:
+        - containerPort: 80
+          name: web
