@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: counter-v2
+  name: counter-v2
+  namespace: counter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: counter-v2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: counter-v2
+    spec:
+      containers:
+      - image: kamilbaran/training:httpd
+        name: training
+        resources: {}
+        env:
+          - name: MONGO_CS
+            value: "mongodb://mongo-0:27017,mongo-1:27017,mongo-2:27017/?replicaSet=test"
+      dnsConfig:
+        searches:
+          - mongo.counter.svc.cluster.local
+status: {}
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: counter-v2
+  name: counter-v2
+  namespace: counter
+spec:
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: counter-v2
+  type: NodePort
+status:
+  loadBalancer: {}

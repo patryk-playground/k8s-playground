@@ -314,6 +314,23 @@ Expected outcome: Nginx home page returned.
     Change the DNS configuration of the deployment by adding searches: mongo.counter.svc.cluster.local
     Verify that it works.
 
+    k create deployment counter-v2 --image=kamilbaran/training:httpd -n counter --dry-run=client -o yaml  >task21.yaml
+    k create service nodeport counter-v2 --tcp=80:80 -n coutner --dry-run=client -o yaml >>task21.yaml
+
+    Test:
+
+    curl 10.0.3.244:31552/mongo/
+
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Docker Training - MongoDB Counter</title>
+    </head>
+    <body><p>
+    I have been seen 7 times!!!<br />Response from: counter-v2-774fc84f74-z8d6d</p></body></html>
+
+
 ## Task 22 - counter app
 
     Environment: your private cluster, namespace: counter
