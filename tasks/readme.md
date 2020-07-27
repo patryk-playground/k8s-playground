@@ -275,6 +275,12 @@ Expected outcome: Nginx home page returned.
     Change the DNS configuration of the stateful set by adding searches: mongo.counter.svc.cluster.local
     Hints: hint 1
 
+    Copy and configure Stateful Set based on official docs. Add DNSConfig section with custom search.
+    Apply and test logs:
+
+    k exec -it mongo-2 -n counter -- cat /etc/resolv.conf
+    k logs mongo-2 -n counter
+
 ## Task 20 - controllers, counter app
 
     Environment: your private cluster, namespace: counter
