@@ -296,6 +296,16 @@ Expected outcome: Nginx home page returned.
         rs.status().members[2].stateStr should show SECONDARY
     Close MongoDB shell and Linux shell.
 
+    After initializing mongo instance, the expected status showed up:
+
+    test:PRIMARY> rs.status().members[0].stateStr
+    PRIMARY
+    test:PRIMARY> rs.status().members[1].stateStr
+    SECONDARY
+    test:PRIMARY> rs.status().members[2].stateStr
+    SECONDARY
+
+
 ## Task 21 - counter app
 
     Environment: your private cluster, namespace: counter
