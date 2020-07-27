@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: app-t17v1
+  namespace: controllers
+  labels:
+    app: app-t17v1
+spec:
+  selector:
+    matchLabels:
+      app: app-t17v1
+  template:
+    metadata:
+      labels:
+        app: app-t17v1
+    spec:
+      tolerations:
+      # this toleration is to have the daemonset runnable on master nodes
+      # remove it if your masters can't run pods
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: app-t17v1
+        image: kamilbaran/training:app-v1
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+      terminationGracePeriodSeconds: 30
+      nodeSelector:
+        datacenter: PL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: app-t17v1
+  name: app-t17v1
+spec:
+  ports:
+  - name: 80-80
+    nodePort: 30917
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: app-t17v1
+  type: NodePort
+status:
+  loadBalancer: {}

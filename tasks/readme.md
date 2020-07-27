@@ -214,12 +214,33 @@ Expected outcome: Nginx home page returned.
     Expose the app to external traffic.
     Call it app-t15v1, use image kamilbaran/training:app-v1.
 
+    k create ns controllers
+    k config set-context controllers --cluster=kubernetes --user=kubernetes-admin --namespace=controllers
+    k config use-context controllers
+    k create service nodeport app-t15v1 --tcp=80:80 --node-port=30915 --dry-run=client -o yaml >> task15.yaml
+    
+    Edit label of pods / service and apply:
+    k apply -f task15.yaml
+
+    Test:
+    curl node_ip:80
+
 ## Task 16 - controllers
 
     Environment: your private cluster, namespace: controllers
     Start the app on all nodes (including control-plane node) in the cluster.
     Expose the app to external traffic.
     Call it app-t16v1, use image kamilbaran/training:app-v1.
+
+    Copy the content from previous task and add section inside pod spec:
+
+    tolerations:
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+
+    Apply all, check all resources are deployed including master node.
+
+    k get all -l app=app-t16v1
 
 ## Task 17 - controllers
 
@@ -228,6 +249,9 @@ Expected outcome: Nginx home page returned.
     Expose the app to external traffic.
     Call it app-t17v1, use image kamilbaran/training:app-v1.
 
+    Copy content from task 16 and add nodeSelector with a label under pod spec.
+    Apply and test.
+    
 ## Task 18 - controllers
 
     Environment: your private cluster, namespace: controllers
