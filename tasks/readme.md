@@ -338,6 +338,11 @@ Expected outcome: Nginx home page returned.
     This time set environment variable MONGO_CS based on the value stored in secret. Call the secret counter-config.
     Verify that it works.
 
+    Copy initial content from task21. Update labels. Create secret:
+
+    k create secret generic counter-config --from-literal=MONGO_CS=mongodb://mongo-0:27017,mongo-1:27017,mongo-2:27017/?replicaSet=test --dry-run=client -o yaml >>task22.yaml 
+
+
 ## Task 23 - counter app
 
     Environment: your private cluster, namespace: counter
