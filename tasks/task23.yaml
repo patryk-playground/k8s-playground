@@ -24,15 +24,10 @@ spec:
         name: training
         env:
         - name: MONGO_CS_FILE
-          value: /tmp/secret-data
-        - name: MONGO_CS
-          valueFrom:
-            secretKeyRef:
-              name: secret-v4
-              key: MONGO_CS
+          value: /tmp/secret-data/connstring
         volumeMounts:
         - name: secret-vol
-          mountPath: /tmp/secret-data #$(MONGO_CS_FILE)
+          mountPath: /tmp/secret-data
           readOnly: true
       volumes:
         - name: secret-vol
@@ -67,7 +62,7 @@ status:
 ---
 apiVersion: v1
 data:
-  MONGO_CS: bW9uZ29kYjovL21vbmdvLTA6MjcwMTcsbW9uZ28tMToyNzAxNyxtb25nby0yOjI3MDE3Lz9yZXBsaWNhU2V0PXRlc3QK
+  connstring: bW9uZ29kYjovL21vbmdvLTA6MjcwMTcsbW9uZ28tMToyNzAxNyxtb25nby0yOjI3MDE3Lz9yZXBsaWNhU2V0PXRlc3QK
 kind: Secret
 metadata:
   creationTimestamp: null
