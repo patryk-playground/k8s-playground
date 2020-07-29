@@ -1,0 +1,75 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: counter-v4
+  name: counter-v4
+  namespace: counter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: counter-v4
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: counter-v4
+    spec:
+      containers:
+      - image: kamilbaran/training:httpd
+        name: training
+        env:
+        - name: MONGO_CS_FILE
+          value: /tmp/secret-data
+        - name: MONGO_CS
+          valueFrom:
+            secretKeyRef:
+              name: secret-v4
+              key: MONGO_CS
+        volumeMounts:
+        - name: secret-vol
+          mountPath: /tmp/secret-data #$(MONGO_CS_FILE)
+          readOnly: true
+      volumes:
+        - name: secret-vol
+          secret:
+            secretName: secret-v4
+      dnsConfig:
+        searches:
+          - mongo.counter.svc.cluster.local
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: counter-v4
+  name: counter-v4
+  namespace: counter
+spec:
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30023
+  selector:
+    app: counter-v4
+  type: NodePort
+status:
+  loadBalancer: {}
+
+---
+apiVersion: v1
+data:
+  MONGO_CS: bW9uZ29kYjovL21vbmdvLTA6MjcwMTcsbW9uZ28tMToyNzAxNyxtb25nby0yOjI3MDE3Lz9yZXBsaWNhU2V0PXRlc3QK
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: secret-v4
+  namespace: counter

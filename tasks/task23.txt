@@ -1,0 +1,1 @@
+mongodb://mongo-0:27017,mongo-1:27017,mongo-2:27017/?replicaSet=test

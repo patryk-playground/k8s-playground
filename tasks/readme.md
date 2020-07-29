@@ -350,6 +350,11 @@ Expected outcome: Nginx home page returned.
     This time mount a secret as a file. Use environment variable MONGO_CS_FILE to specify the location of the file.
     Verify that it works.
 
+    Use previous deployment / service, add volume mount and configure secrets.
+
+    k create secret generic secret-v4 --from-file=MONGO_CS=task23.txt -n counter --dry-run=client -o yaml >>task23.yaml
+
+
 ## Task 24 - secrets
 
     Environment: your private cluster, namespace: web-servers
@@ -359,3 +364,4 @@ Expected outcome: Nginx home page returned.
         password: SecretPassword
         email: user4demo@kamilbaran.pl
     Hints: hint 1
+
