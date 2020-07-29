@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: app-t24v1
+  name: app-t24v1
+  namespace: web-servers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-t24v1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: app-t24v1
+    spec:
+      containers:
+      - image: user4demo/training:app-v1
+        name: training
+        resources: {}
+      imagePullSecrets:
+        - name: regcred
+status: {}
+
+---
+apiVersion: v1
+data:
+  .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOiB7CgkJCSJhdXRoIjogImRYTmxjalJrWlcxdk9sTmxZM0psZEZCaGMzTjNiM0prIgoJCX0KCX0sCgkiSHR0cEhlYWRlcnMiOiB7CgkJIlVzZXItQWdlbnQiOiAiRG9ja2VyLUNsaWVudC8xOS4wMy4xMiAobGludXgpIgoJfQp9
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: regcred
+  namespace: web-servers
+type: kubernetes.io/dockerconfigjson

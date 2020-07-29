@@ -365,3 +365,6 @@ Expected outcome: Nginx home page returned.
         email: user4demo@kamilbaran.pl
     Hints: hint 1
 
+    docker login --username=user4demo --password=SecretPassword
+    k create deployment app-t24v1 --image=user4demo/training:app-v1 -n web-servers --dry-run=client -o yaml >task24.yaml create secret generic  regcred --from-file=.dockerconfigjson=$HOME/.docker/config.json  --type=kubernetes.io/dockerconfigjson -n web-servers >>task24.yaml
+  
