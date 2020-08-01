@@ -81,7 +81,7 @@ Add a label task of value eight to all resources that you will create during thi
     k create deployment task08 --image=httpd:2.4-alpine --namespace=web-servers  --dry-run=client -o yaml >task08.yaml 
     k create svc nodeport httpd-task08 --tcp=80:80 --node-port=30900 --dry-run=client -o yaml >> task08.yaml 
 
-    Add labels and ingress definition. Add host configuration inside ingress. 
+Add labels and ingress definition. Add host configuration inside ingress. 
 
 ### Task 9 - growing the cluster
 Environment: your private cluster
@@ -148,7 +148,6 @@ Downgrade to the first version, verify that it works and scale the deployment to
     k rollout undo deployment t11-app --to-revision=1 
     
     k get pods -l app=t11-app | tail -5  | awk '{print $1}' | xargs -I name kubectl logs name
-    
     k scale deployment t11-app --replicas=0 
 
 ### Task 12 - rolling upgrade
@@ -164,7 +163,6 @@ Hints: hint 1
     curl 10.0.3.243:30912
    
     k get pods -l app=t12-app | tail -2  | awk '{print $1}' | xargs -I name kubectl logs name
-
     k set image deployment/t12-app --namespace=upgrades nginx=tomcat:jdk11-openjdk-slim
 
 Problem:  Fix targetPort in service to point at Tomcat HTTP port.
@@ -185,7 +183,7 @@ Get existing resources:
     k describe deployments.apps t13-app
     k create deployment t13-app --image=kamilbaran/training:training-app-v2 --namespace=upgrades --dry-run=client -o yaml > task13_canary.yaml
 
-    Change deployment name to avoid overriding existing deployment, rename label app=>name and add version=v2 label. Apply.
+Change deployment name to avoid overriding existing deployment, rename label app=>name and add version=v2 label. Apply.
 
     kubectl edit service t13-app
     Update service by removing version number, so that traffic will be spread between existing pods in round-robin fashion.
@@ -209,94 +207,96 @@ Expected outcome: Nginx home page returned.
 
 ## Task 15 - controllers
 
-    Environment: your private cluster, namespace: controllers
-    Start the app on all worker nodes in the cluster.
-    Expose the app to external traffic.
-    Call it app-t15v1, use image kamilbaran/training:app-v1.
+Environment: your private cluster, namespace: controllers
+Start the app on all worker nodes in the cluster.
+Expose the app to external traffic.
+Call it app-t15v1, use image kamilbaran/training:app-v1.
 
     k create ns controllers
     k config set-context controllers --cluster=kubernetes --user=kubernetes-admin --namespace=controllers
     k config use-context controllers
     k create service nodeport app-t15v1 --tcp=80:80 --node-port=30915 --dry-run=client -o yaml >> task15.yaml
     
-    Edit label of pods / service and apply:
+Edit label of pods / service and apply:
+
     k apply -f task15.yaml
 
-    Test:
+Test:
+
     curl node_ip:80
 
 ## Task 16 - controllers
 
-    Environment: your private cluster, namespace: controllers
-    Start the app on all nodes (including control-plane node) in the cluster.
-    Expose the app to external traffic.
-    Call it app-t16v1, use image kamilbaran/training:app-v1.
+Environment: your private cluster, namespace: controllers
+Start the app on all nodes (including control-plane node) in the cluster.
+Expose the app to external traffic.
+Call it app-t16v1, use image kamilbaran/training:app-v1.
 
-    Copy the content from previous task and add section inside pod spec:
+Copy the content from previous task and add section inside pod spec:
 
     tolerations:
     - key: node-role.kubernetes.io/master
       effect: NoSchedule
 
-    Apply all, check all resources are deployed including master node.
+Apply all, check all resources are deployed including master node.
 
     k get all -l app=app-t16v1
 
 ## Task 17 - controllers
 
-    Environment: your private cluster, namespace: controllers
-    Start the app on all nodes labelled datacenter=PL.
-    Expose the app to external traffic.
-    Call it app-t17v1, use image kamilbaran/training:app-v1.
+Environment: your private cluster, namespace: controllers
+Start the app on all nodes labelled datacenter=PL.
+Expose the app to external traffic.
+Call it app-t17v1, use image kamilbaran/training:app-v1.
 
-    Copy content from task 16 and add nodeSelector with a label under pod spec.
-    Apply and test.
+Copy content from task 16 and add nodeSelector with a label under pod spec.
+Apply and test.
     
 ## Task 18 - controllers
 
-    Environment: your private cluster, namespace: controllers
-    Start the stateful app with three replicas. Choose the best type of controller.
-    Call it app-t18v1, use image kamilbaran/training:app-v1.
-    Run nslookup app-t18v1 in one of the created pods and write the output into /home/student/training/tasks/task-18.txt on your desktop machine.
+Environment: your private cluster, namespace: controllers
+Start the stateful app with three replicas. Choose the best type of controller.
+Call it app-t18v1, use image kamilbaran/training:app-v1.
+Run nslookup app-t18v1 in one of the created pods and write the output into /home/student/training/tasks/task-18.txt on your desktop machine.
 
-    Copy Stateful Set config from docs and update it to create 3 replicas.
-    Query it and dump nslookup result:
+Copy Stateful Set config from docs and update it to create 3 replicas.
+Query it and dump nslookup result:
 
     k exec -it app-t18v1-0  -- nslookup app-t18v1 > /home/student/training/tasks/task-18.txt
 
 
 ## Task 19 - controllers, counter app
 
-    Environment: your private cluster, namespace: counter
-    Start the MongoDB with three replicas.
-    Call it mongo, use image kamilbaran/training:mongo.
-    In this task, you should skip volumes and MongoDB data persistence.
-    Overwrite the image default CMD. Start mongod process with the following flags: --bind_ip_app --replSet=test
-    Change the DNS configuration of the stateful set by adding searches: mongo.counter.svc.cluster.local
-    Hints: hint 1
+Environment: your private cluster, namespace: counter
+Start the MongoDB with three replicas.
+Call it mongo, use image kamilbaran/training:mongo.
+In this task, you should skip volumes and MongoDB data persistence.
+Overwrite the image default CMD. Start mongod process with the following flags: --bind_ip_app --replSet=test
+Change the DNS configuration of the stateful set by adding searches: mongo.counter.svc.cluster.local
+Hints: hint 1
 
-    Copy and configure Stateful Set based on official docs. Add DNSConfig section with custom search.
-    Apply and test logs:
+Copy and configure Stateful Set based on official docs. Add DNSConfig section with custom search.
+Apply and test logs:
 
     k exec -it mongo-2 -n counter -- cat /etc/resolv.conf
     k logs mongo-2 -n counter
 
 ## Task 20 - controllers, counter app
 
-    Environment: your private cluster, namespace: counter
-    Configure the MongoDB from a previous task.
-    Start a shell in the mongo-0 pod and then connect to MongoDB running in this pod by running mongo command. This will connect to the instance running on the localhost.
-    In the MongoDB shell run the following commands:
-        rs.initiate()
-        rs.add("mongo-1")
-        rs.add("mongo-2")
-    After executing the above commands, you can check the status of a MongoDB replica set. If you see the following output, it means that the replica was initialised successfully.
-        rs.status().members[0].stateStr should show PRIMARY
-        rs.status().members[1].stateStr should show SECONDARY
-        rs.status().members[2].stateStr should show SECONDARY
-    Close MongoDB shell and Linux shell.
+Environment: your private cluster, namespace: counter
+Configure the MongoDB from a previous task.
+Start a shell in the mongo-0 pod and then connect to MongoDB running in this pod by running mongo command. This will connect to the instance running on the localhost.
+In the MongoDB shell run the following commands:
+    rs.initiate()
+    rs.add("mongo-1")
+    rs.add("mongo-2")
+After executing the above commands, you can check the status of a MongoDB replica set. If you see the following output, it means that the replica was initialised successfully.
+    rs.status().members[0].stateStr should show PRIMARY
+    rs.status().members[1].stateStr should show SECONDARY
+    rs.status().members[2].stateStr should show SECONDARY
+Close MongoDB shell and Linux shell.
 
-    After initializing mongo instance, the expected status showed up:
+After initializing mongo instance, the expected status showed up:
 
     test:PRIMARY> rs.status().members[0].stateStr
     PRIMARY
@@ -308,16 +308,16 @@ Expected outcome: Nginx home page returned.
 
 ## Task 21 - counter app
 
-    Environment: your private cluster, namespace: counter
-    Create a new deployment called counter-v2. Use the image kamilbaran/training:httpd and expose it to external traffic by creating a service with the same name.
-    Set environment variable MONGO_CS to mongodb://mongo-0:27017,mongo-1:27017,mongo-2:27017/?replicaSet=test
-    Change the DNS configuration of the deployment by adding searches: mongo.counter.svc.cluster.local
-    Verify that it works.
+Environment: your private cluster, namespace: counter
+Create a new deployment called counter-v2. Use the image kamilbaran/training:httpd and expose it to external traffic by creating a service with the same name.
+Set environment variable MONGO_CS to mongodb://mongo-0:27017,mongo-1:27017,mongo-2:27017/?replicaSet=test
+Change the DNS configuration of the deployment by adding searches: mongo.counter.svc.cluster.local
+Verify that it works.
 
     k create deployment counter-v2 --image=kamilbaran/training:httpd -n counter --dry-run=client -o yaml  >task21.yaml
     k create service nodeport counter-v2 --tcp=80:80 -n coutner --dry-run=client -o yaml >>task21.yaml
 
-    Test:
+Test:
 
     curl 10.0.3.244:31552/mongo/
 
@@ -333,37 +333,37 @@ Expected outcome: Nginx home page returned.
 
 ## Task 22 - counter app
 
-    Environment: your private cluster, namespace: counter
-    Create a new deployment called counter-v3. Use the same configuration as in task 21 with one exception.
-    This time set environment variable MONGO_CS based on the value stored in secret. Call the secret counter-config.
-    Verify that it works.
+Environment: your private cluster, namespace: counter
+Create a new deployment called counter-v3. Use the same configuration as in task 21 with one exception.
+This time set environment variable MONGO_CS based on the value stored in secret. Call the secret counter-config.
+Verify that it works.
 
-    Copy initial content from task21. Update labels. Create secret:
+Copy initial content from task21. Update labels. Create secret:
 
     k create secret generic counter-config --from-literal=MONGO_CS=mongodb://mongo-0:27017,mongo-1:27017,mongo-2:27017/?replicaSet=test --dry-run=client -o yaml >>task22.yaml 
 
 
 ## Task 23 - counter app
 
-    Environment: your private cluster, namespace: counter
-    Create a new deployment called counter-v4. Use the same configuration as in task 22 with one exception.
-    This time mount a secret as a file. Use environment variable MONGO_CS_FILE to specify the location of the file.
-    Verify that it works.
+Environment: your private cluster, namespace: counter
+Create a new deployment called counter-v4. Use the same configuration as in task 22 with one exception.
+This time mount a secret as a file. Use environment variable MONGO_CS_FILE to specify the location of the file.
+Verify that it works.
 
-    Use previous deployment / service, add volume mount and configure secrets.
+Use previous deployment / service, add volume mount and configure secrets.
 
     k create secret generic secret-v4 --from-file=MONGO_CS=task23.txt -n counter --dry-run=client -o yaml >>task23.yaml
 
 
 ## Task 24 - secrets
 
-    Environment: your private cluster, namespace: web-servers
-    Create a new deployment. Call it app-t24v1, use image user4demo/training:app-v1.
-    The repository is password protected. Pass required credentials to Kubernetes:
-        login: user4demo
-        password: SecretPassword
-        email: user4demo@kamilbaran.pl
-    Hints: hint 1
+Environment: your private cluster, namespace: web-servers
+Create a new deployment. Call it app-t24v1, use image user4demo/training:app-v1.
+The repository is password protected. Pass required credentials to Kubernetes:
+    login: user4demo
+    password: SecretPassword
+    email: user4demo@kamilbaran.pl
+Hints: hint 1
 
     docker login --username=user4demo --password=SecretPassword
     k create deployment app-t24v1 --image=user4demo/training:app-v1 -n web-servers --dry-run=client -o yaml >task24.yaml create secret generic  regcred --from-file=.dockerconfigjson=$HOME/.docker/config.json  --type=kubernetes.io/dockerconfigjson -n web-servers >>task24.yaml
