@@ -2,6 +2,7 @@
 
 alias k=kubectl
 complete -F __start_kubectl k
+alias kcd='kubectl config set-context --current --namespace'
 
 function current_ns() {
   ns=$(kubectl config view --minify | awk  '/namespace:/ {print $2}')
