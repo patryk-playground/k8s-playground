@@ -1,3 +1,5 @@
+# mongo => datacenter=pl
+# httpd => node with mongo
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -25,7 +27,15 @@ spec:
         ports:
         - containerPort: 27017
         command: ["/usr/bin/mongod", "--dbpath=/data/db", "--bind_ip_all"] 
-
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: datacenter
+                operator: In
+                values:
+                - pl
 
 ---
 apiVersion: v1

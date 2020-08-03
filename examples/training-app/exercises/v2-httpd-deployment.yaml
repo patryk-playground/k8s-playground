@@ -29,6 +29,20 @@ spec:
             secretKeyRef:
               name: mongo-secret
               key: MONGO_CS
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - counter
+              - key: component
+                operator: In
+                values:
+                - database
+            topologyKey: "kubernetes.io/hostname"
 
 ---
 apiVersion: v1
