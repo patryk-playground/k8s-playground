@@ -196,6 +196,8 @@ After this step Traefik dashboard should be available via HTTP address defined i
 
 1. Create user and context, define custom rolebinding groups to allow a new user context to create all resources defined in `training-app-base.yaml`
 
+2. Apply network policies. Deny all and allow access from alpine to trainining pods. 
+
 ## Best practices
 
 - In case of errors, update selector over label

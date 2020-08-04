@@ -18,4 +18,30 @@ spec:
     - port: 80
       protocol: TCP
 
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: alpine
+  labels:
+    app: training
+spec:
+  podSelector:
+    matchLabels:
+      run: alpine
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: training
+  - to:
+    - ipBlock:
+        cidr: 172.16.0.0/16
+    # - podSelector:  # it does not work, need to connect to pods IP network
+    #     matchLabels:
+    #       k8s-app: kube-dns
+    # ports:
+    # - protocol: TCP
+    #   port: 80
+
 # more info: https://kubernetes.io/docs/concepts/services-networking/network-policies/
