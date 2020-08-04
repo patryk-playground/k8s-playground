@@ -480,6 +480,17 @@ Create new namespace resources.
 Create a resource quota in this namespace to limit resource usage to 1 CPU, 1 GB of RAM and 10 pods.
 Hints: hint 1
 
+    k create ns resources
+    k create quota namespace-limit --namespace=resources --dry-run=client -o yaml >task30.yaml
+
+Add hard limits to the spec:
+
+    hard:
+        cpu: "1"
+        memory: 1Gi
+        pods: "10"
+
+
 ## Task 31 - resoueces
 
 Environment: your private cluster, namespace: resources

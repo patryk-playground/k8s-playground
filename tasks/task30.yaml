@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  creationTimestamp: null
+  name: namespace-limit
+  namespace: resources
+spec: 
+  hard:
+    cpu: "1"
+    memory: 1Gi
+    pods: "10"
+status: {}
