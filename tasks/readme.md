@@ -499,6 +499,12 @@ Set a request and limit of 200m of CPU and 100MB of RAM.
 Scale deployment to max possible number of pods that might be successfully started in this namespace.
 Hints: hint 1
 
+    k create deployment app-t31v1 --image=kamilbaran/training:app-v1 -n resources --dry-run=client -o yaml > task31.yaml
+
+Add resources request / limit config and scale up (5 instances should be created):
+
+    k scale deployment -n resources app-t31v1 --replicas=10
+
 ## Task 32 - resoueces
 
 Environment: your private cluster, namespace: counter
