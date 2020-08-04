@@ -374,6 +374,14 @@ Environment: your private cluster, namespace: scheduling
 Create a new deployment app-t25v1, use image kamilbaran/training:app-v1.
 Use node selector to make sure pods will be running only on the computing nodes (based on labels created on task 10).
 
+    k create ns scheduling 
+    k create deployment app-t25v1 --image=kamilbaran/training:app-v1 -n scheduling --dry-run=client -o yaml > task25.yaml
+
+Increase number of replicas, add NodeSelector section and verify.
+
+    k get all --show-labels  -o wide
+    k get no -L type
+
 ## Task 26 - scheduling
 
 Environment: your private cluster, namespace: scheduling
