@@ -367,4 +367,55 @@ Hints: hint 1
 
     docker login --username=user4demo --password=SecretPassword
     k create deployment app-t24v1 --image=user4demo/training:app-v1 -n web-servers --dry-run=client -o yaml >task24.yaml create secret generic  regcred --from-file=.dockerconfigjson=$HOME/.docker/config.json  --type=kubernetes.io/dockerconfigjson -n web-servers >>task24.yaml
-  
+
+## Task 25 - scheduling
+
+Environment: your private cluster, namespace: scheduling
+Create a new deployment app-t25v1, use image kamilbaran/training:app-v1.
+Use node selector to make sure pods will be running only on the computing nodes (based on labels created on task 10).
+
+## Task 26 - scheduling
+
+Environment: your private cluster, namespace: scheduling
+Create a new deployment app-t26v1, use image kamilbaran/training:app-v1.
+Use node affinity to make sure pods will be running only on the computing nodes (based on labels created on task 10).
+
+## Task 27 - scheduling
+
+Environment: your private cluster, namespace: scheduling
+Create a new deployment app-t27v1, use image kamilbaran/training:app-v1.
+Use pod anti-affinity to make sure that the scheduler will start just one pod on every worker node.
+Verify that it works by scaling the deployment to 5 replicas.
+
+## Task 28 - scheduling
+
+Environment: your private cluster, namespace: scheduling
+Create a new deployment app-t28v1, use image kamilbaran/training:app-v1.
+Use pod anti-affinity to make sure that the scheduler prefers nodes without pods of the same app. If the number of pods is higher than the number of nodes, the scheduler should start multiple pods on the same node.
+
+## Task 29 - scheduling
+
+Environment: your private cluster, namespace: counter
+Update the mongo stateful set created in task 19. Choose one of scheduling options to make sure that all pods will be running on different nodes.
+
+## Task 30 - resoueces
+
+Environment: your private cluster, namespace: resources
+Create new namespace resources.
+Create a resource quota in this namespace to limit resource usage to 1 CPU, 1 GB of RAM and 10 pods.
+Hints: hint 1
+
+## Task 31 - resoueces
+
+Environment: your private cluster, namespace: resources
+Create new deployment app-t31v1, use image kamilbaran/training:app-v1.
+Set a request and limit of 200m of CPU and 100MB of RAM.
+Scale deployment to max possible number of pods that might be successfully started in this namespace.
+Hints: hint 1
+
+## Task 32 - resoueces
+
+Environment: your private cluster, namespace: counter
+Update the counter-v2 deployment created in task 21.
+Set limit and request values of CPU to 10% of a single CPU.
+Set limit and request values of RAM just above the lowest possible value that is needed to start the container.
