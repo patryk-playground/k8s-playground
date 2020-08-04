@@ -192,6 +192,10 @@ To get a new token: `kubeadm token create --print-join-command`
 
 After this step Traefik dashboard should be available via HTTP address defined in Ingress controller: `http://patryk.pg.com:8080/dashboard/`
 
+# Day 4
+
+1. Create user and context, define custom rolebinding groups to allow a new user context to create all resources defined in `training-app-base.yaml`
+
 ## Best practices
 
 - In case of errors, update selector over label
