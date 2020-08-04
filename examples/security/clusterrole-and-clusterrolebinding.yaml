@@ -2,23 +2,23 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: all-pods-reader
+  name: patryk-all-pods-reader
 rules:
 - apiGroups: [""]
-  resources: ["pods"]
+  resources: ["pods", "namespaces"]
   verbs: ["get", "list", "watch"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: all-pods-reader
-  namespace: student
+  name: patryk-all-pods-reader
+  namespace: patryk
 roleRef:
   kind: ClusterRole
-  name: all-pods-reader
+  name: patryk-all-pods-reader
   apiGroup: rbac.authorization.k8s.io
 subjects:
 - kind: User
-  name: student
+  name: patryk
   apiGroup: rbac.authorization.k8s.io

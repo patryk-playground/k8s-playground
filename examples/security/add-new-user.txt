@@ -4,18 +4,18 @@ kubectl config get-contexts
 
 
 # create a new user
-openssl genrsa -out student.key 2048
-openssl req -new -key student.key -out student.csr -subj "/CN=student/O=training"
-openssl x509 -req -in student.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out student.crt -days 14
+openssl genrsa -out patryk.key 2048
+openssl req -new -key patryk.key -out patryk.csr -subj "/CN=patryk/O=training"
+openssl x509 -req -in patryk.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out patryk.crt -days 14
 
-kubectl config set-credentials student --client-certificate=student.crt  --client-key=student.key
-kubectl config set-context student-context --cluster=kubernetes --namespace=student --user=student
+kubectl config set-credentials patryk --client-certificate=patryk.crt  --client-key=patryk.key
+kubectl config set-context patryk-context --cluster=k8s-shared --namespace=patryk --user=patryk
 
 
 # check lack of any privileges
-kubectl --context=student-context get deploy,pod
+kubectl --context=patryk-context get deploy,pod
 or
-kubectl config use-context student-context
+kubectl config use-context patryk-context
 kubectl get deploy,pod
 
 

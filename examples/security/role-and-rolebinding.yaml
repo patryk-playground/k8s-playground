@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: student
+  name: patryk
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: Role
 metadata:
   name: deployment-manager
-  namespace: student
+  namespace: patryk
 rules:
 - apiGroups: ["", "extensions", "apps"]
   resources: ["deployments", "replicasets", "pods"]
@@ -19,13 +19,13 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
 metadata:
-  name: student-deployment-manager
-  namespace: student
+  name: patryk-deployment-manager
+  namespace: patryk
 roleRef:
   kind: Role
   name: deployment-manager
   apiGroup: ""
 subjects:
 - kind: User
-  name: student
+  name: patryk
   apiGroup: ""
