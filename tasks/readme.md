@@ -452,6 +452,27 @@ Use pod anti-affinity to make sure that the scheduler prefers nodes without pods
 Environment: your private cluster, namespace: counter
 Update the mongo stateful set created in task 19. Choose one of scheduling options to make sure that all pods will be running on different nodes.
 
+Check what is running in the `counter` namespace:
+
+    k get deploy,sts,pod -n counter --show-labels -o wide
+
+Update stateful set:
+
+    cp task10.yaml task29.yaml
+
+Add:
+
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - mongo
+            topologyKey: kubernetes.io/hostname
+
 ## Task 30 - resoueces
 
 Environment: your private cluster, namespace: resources
