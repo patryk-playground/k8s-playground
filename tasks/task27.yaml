@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: app-t27v1
+  name: app-t27v1
+  namespace: scheduling
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: app-t27v1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: app-t27v1
+    spec:
+      affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - app-t27v1
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - image: kamilbaran/training:app-v1
+        name: training
+        resources: {}
+status: {}

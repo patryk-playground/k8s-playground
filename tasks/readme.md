@@ -390,6 +390,8 @@ Use node affinity to make sure pods will be running only on the computing nodes 
 
 Increase number of replicas, add affinity / nodeAffinity section to the pod spec and verify.
 
+    k create deployment app-t26v1 --image=kamilbaran/training:app-v1 -n scheduling --dry-run=client -o yaml > task26.yaml
+
     affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -408,6 +410,21 @@ Environment: your private cluster, namespace: scheduling
 Create a new deployment app-t27v1, use image kamilbaran/training:app-v1.
 Use pod anti-affinity to make sure that the scheduler will start just one pod on every worker node.
 Verify that it works by scaling the deployment to 5 replicas.
+
+Add podAntiAffinity section and udpate replicas:
+
+    k create deployment app-t27v1 --image=kamilbaran/training:app-v1 -n scheduling --dry-run=client -o yaml > task27.yaml
+
+    affinity:
+        podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                    operator: In
+                    values:
+                    - app-t27v1
+                topologyKey: kubernetes.io/hostname
 
 ## Task 28 - scheduling
 
