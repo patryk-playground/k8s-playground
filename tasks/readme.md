@@ -511,3 +511,10 @@ Environment: your private cluster, namespace: counter
 Update the counter-v2 deployment created in task 21.
 Set limit and request values of CPU to 10% of a single CPU.
 Set limit and request values of RAM just above the lowest possible value that is needed to start the container.
+
+
+    copy task21.yaml task32.yaml 
+
+Update resource limits, apply till reach the lowest possible value that is needed to start the container. Test:
+
+    k top pod -n counter 
