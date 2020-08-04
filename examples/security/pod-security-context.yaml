@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: training
+spec:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 2000
+    fsGroup: 3000
+    runAsNonRoot: false
+  volumes:
+  - name: data
+    emptyDir: {}
+  containers:
+  - name: training
+    #image: kamilbaran/training:app-v1
+    image: alpine
+    command: [ "sh", "-c", "sleep 1h" ]
+    imagePullPolicy: Always
+    resources:
+    volumeMounts:
+    - name: data
+      mountPath: /data
+    #securityContext:
+      #runAsUser: 1000
+      #allowPrivilegeEscalation: false
+      #readOnlyRootFilesystem: false
+      #privileged: false
+      #capabilities:
+        #add: ["NET_BIND_SERVICE", "CAP_CHOWN"]
+        #drop: ["all"]
+
+# kubectl exec -it training -- sh
+# id, ps aux, ls -l /, grep CapInh /proc/1/status, capsh --decode=00000000a80425fb
+
+# https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+# https://kubernetes.io/docs/concepts/policy/pod-security-policy/
