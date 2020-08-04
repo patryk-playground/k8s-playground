@@ -432,6 +432,21 @@ Environment: your private cluster, namespace: scheduling
 Create a new deployment app-t28v1, use image kamilbaran/training:app-v1.
 Use pod anti-affinity to make sure that the scheduler prefers nodes without pods of the same app. If the number of pods is higher than the number of nodes, the scheduler should start multiple pods on the same node.
 
+    k create deployment app-t28v1 --image=kamilbaran/training:app-v1 -n scheduling --dry-run=client -o yaml > task28.yaml
+
+    affinity
+        podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+                podAffinityTerm:
+                labelSelector:
+                    matchExpressions:
+                    - key: app
+                        operator: In
+                        values:
+                        - app-t27v1
+                topologyKey: kubernetes.io/hostname
+
 ## Task 29 - scheduling
 
 Environment: your private cluster, namespace: counter
