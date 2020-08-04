@@ -388,6 +388,20 @@ Environment: your private cluster, namespace: scheduling
 Create a new deployment app-t26v1, use image kamilbaran/training:app-v1.
 Use node affinity to make sure pods will be running only on the computing nodes (based on labels created on task 10).
 
+Increase number of replicas, add affinity / nodeAffinity section to the pod spec and verify.
+
+    affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: type
+                operator: In
+                values:
+                - computing-node         
+
+    k get all --show-labels  -o wide
+
 ## Task 27 - scheduling
 
 Environment: your private cluster, namespace: scheduling
