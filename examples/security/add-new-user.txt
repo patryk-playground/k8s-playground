@@ -1,0 +1,28 @@
+# check current configuration
+kubectl config current-context
+kubectl config get-contexts
+
+
+# create a new user
+openssl genrsa -out student.key 2048
+openssl req -new -key student.key -out student.csr -subj "/CN=student/O=training"
+openssl x509 -req -in student.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out student.crt -days 14
+
+kubectl config set-credentials student --client-certificate=student.crt  --client-key=student.key
+kubectl config set-context student-context --cluster=kubernetes --namespace=student --user=student
+
+
+# check lack of any privileges
+kubectl --context=student-context get deploy,pod
+or
+kubectl config use-context student-context
+kubectl get deploy,pod
+
+
+# add privileges
+kubectl create -f role-and-rolebinding.yaml
+
+
+# another way to check privileges
+kubectl auth can-i create pod
+kubectl auth can-i create svc

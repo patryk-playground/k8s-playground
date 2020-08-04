@@ -1,0 +1,33 @@
+more ~/.kube/config
+export client=$(grep client-cert ~/.kube/config -m1 | cut -d " " -f 6); echo $client
+export key=$(grep client-key-data ~/.kube/config -m1 | cut -d " " -f 6); echo $key
+export auth=$(grep certificate-authority-data ~/.kube/config -m1 | cut -d " " -f 6); echo $auth
+
+echo $client | base64 -d - > ./k8s-client.pem
+echo $key | base64 -d - > ./k8s-client-key.pem
+echo $auth | base64 -d - > ./k8s-ca.pem
+
+export server_url=$(grep server ~/.kube/config -m1 | cut -d " " -f 6)
+
+cat << EOF > namespace.json
+{
+  "kind": "Namespace",
+  "apiVersion": "v1",
+  "metadata": {
+    "name" : "api-test"
+  }
+}
+EOF
+
+curl -s --cert k8s-client.pem --key k8s-client-key.pem --cacert k8s-ca.pem $server_url/api/v1/namespaces
+curl -s --cert k8s-client.pem --key k8s-client-key.pem --cacert k8s-ca.pem $server_url/api/v1/namespaces/ | jq .items[].metadata.name
+curl -s --cert k8s-client.pem --key k8s-client-key.pem --cacert k8s-ca.pem $server_url/api/v1/namespaces/ -XPOST -H'Content-Type: application/json' -d@namespace.json
+curl -s --cert k8s-client.pem --key k8s-client-key.pem --cacert k8s-ca.pem $server_url/api/v1/namespaces/api-test -XDELETE
+
+
+export token=$(kubectl describe secrets | grep ^token | cut -f 7 -d ' ')
+curl $server_url/apis --header "Authorization: Bearer $token" -k
+
+kubectl run -it alpine --image=alpine
+ls -la /var/run/secrets/kubernetes.io/serviceaccount/
+kubectl delete pod alpine
