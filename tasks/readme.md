@@ -518,3 +518,88 @@ Set limit and request values of RAM just above the lowest possible value that is
 Update resource limits, apply till reach the lowest possible value that is needed to start the container. Test:
 
     k top pod -n counter 
+
+## Task 33 - controllers
+
+    Environment: your private cluster, namespace: controllers
+    Create a job called job-at and run successfully just once.
+    The job should execute the following command curl http://10.0.3.205:31386/?task=job-at&name=your-name.
+    Put your real name instead of your-name in the request. Image kamilbaran/training:app contains curl command.
+
+
+## Task 34 - controllers
+
+    Environment: your private cluster, namespace: controllers
+    Create a job called job-gp that will run ten times. Allow two jobs to be executed at the same time.
+    Command: curl http://10.0.3.205:31386/?task=job-gp&name=your-name.
+    Put your real name instead of your-name in the request. Image kamilbaran/training:app contains curl command.
+
+## Task 35 - controllers
+
+    Environment: your private cluster, namespace: controllers
+    Create a job called job-cd that will run the following command every five minutes.
+    Command: curl http://10.0.3.205:31386/?task=job-cd&name=your-name.
+    Put your real name instead of your-name in the request. Image kamilbaran/training:app contains curl command.
+
+## Task 36 - pod design
+
+    Environment: your private cluster, namespace: default
+    Create a standalone pod app-ps on the master node.
+    The pod should execute the following command in the loop every 5 minutes curl http://10.0.3.205:31386/?task=app-ps&name=your-name.
+    Put your real name instead of your-name in the request. Image kamilbaran/training:app contains curl command.
+
+## Task 37 - pod design
+
+    Environment: your private cluster, namespace: web-servers
+    Create pod httpd-cs based on httpd:alpine image.
+    The pod should have a read-only filesystem.
+    Make sure that the pod is running.
+
+## Task 38 - pod design
+
+    Environment: your private cluster, namespace: web-servers
+    Create pod httpd-dc based on httpd:alpine image.
+    Drop all capabilities and add only required.
+    Make sure that the pod is running.
+
+## Task 39 - pod design
+
+    Environment: your private cluster, namespace: web-servers
+    Create pod tomcat-dc based on tomcat:jdk11-openjdk-slim image.
+    Drop all capabilities and add only required.
+    Make sure that the pod is running.
+
+## Task 40 - cluster config, troubleshooting
+
+    Environment: your private cluster
+    Fix the problem with worker nodes.
+    Please write an email to Kamil when you are ready to start this task.
+
+## Task 41 - cluster config, troubleshooting
+
+    Environment: your private cluster
+    Fix the problem with the master node.
+    Please write an email to Kamil when you are ready to start this task.
+
+## Task 42 - observability, counter
+
+    Environment: your private cluster, namespace: counter
+    Update the counter-v2 deployment created in task 21.
+    Add HTTP readiness and liveness check to make sure that the Counter app is working fine.
+
+## Task 43 - observability, counter
+
+    Environment: your private cluster, namespace: counter
+    Update the mongo stateful set created in task 19.
+    Force K8s to pull image every time the pod is recreated.
+    Add readiness check that will verify that the Mongo is fully initialised (mongod status is primary or secondary).
+    Use a script /data/readiness.sh directory. The first execution should be 5 seconds after starting the container and then run it it every 10 seconds.
+    Reinitialise MongoDB if needed.
+
+## Task 44 - security
+
+    Environment: your private cluster, namespace: networking
+    There is an app already running in your cluster in networking namespace.
+    Familiarize yourself with the app and make sure you can connect to it.
+    Create default-deny-all network policy that will drop all traffic.
+    Create additional network policy that will allow all necessary traffic to make this app work again.
