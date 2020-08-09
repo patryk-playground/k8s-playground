@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-ps
+  namespace: default
+spec:
+  containers:
+  - name: app-ps
+    image: kamilbaran/training:app
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do curl -s http://10.0.3.205:31386/?task=app-ps&name=Patryk; sleep 300; done"]

@@ -570,6 +570,8 @@ Update command and additional parameters and then execute:
     The pod should execute the following command in the loop every 5 minutes curl http://10.0.3.205:31386/?task=app-ps&name=your-name.
     Put your real name instead of your-name in the request. Image kamilbaran/training:app contains curl command.
 
+    Copy file into master node under /etc/kubernetes/manifests directory.
+    
 ## Task 37 - pod design
 
     Environment: your private cluster, namespace: web-servers
@@ -606,7 +608,7 @@ Update command and additional parameters and then execute:
 ## Task 42 - observability, counter
 
     Environment: your private cluster, namespace: counter
-    Update the counter-v2 deployment created in task 21.
+    Update the counter-v2 deployment created in task 21, keep changes from task 32 as well.
     Add HTTP readiness and liveness check to make sure that the Counter app is working fine.
 
 ## Task 43 - observability, counter
