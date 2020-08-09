@@ -601,9 +601,14 @@ Run pod. Check existing capabilities:
     capsh --decode=00000000a80425fb
     k delete -f tasks/task38.yaml
 
-Add securityContext with capabilities and apply again:
+Add securityContext with capabilities and apply again one by one till all required capabilities are found:
 
     k apply -f tasks/task38.yaml 
+
+Test:
+
+    k port-forward -n web-servers httpd-dc 8080:80 
+    curl localhost:8080
 
 ## Task 39 - pod design
 
@@ -612,7 +617,23 @@ Add securityContext with capabilities and apply again:
     Drop all capabilities and add only required.
     Make sure that the pod is running.
 
-    k run httpd-dc --image=httpd:alpine --namespace=web-servers  --dry-run=client -o yaml > tasks/task38.yaml
+    k run tomcat-dc --image=tomcat:jdk11-openjdk-slim --namespace=web-servers  --dry-run=client -o yaml > tasks/task39.yaml
+    k apply -f tasks/task39.yaml 
+
+Run pod. Check existing capabilities:
+
+    k exec -it -n web-servers tomcat-dc -- cat /proc/1/status |grep Cap
+    capsh --decode=00000000a80425fb
+    k delete -f tasks/task39.yaml
+
+Add securityContext with capabilities and apply again one by one till all required capabilities are found:
+
+    k apply -f tasks/task39.yaml 
+
+Test:
+
+    k port-forward -n web-servers tomcat-dc 8080:8080
+    curl localhost:8080
 
 ## Task 40 - cluster config, troubleshooting
 
