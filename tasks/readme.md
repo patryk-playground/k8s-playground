@@ -653,6 +653,17 @@ Test:
     Update the counter-v2 deployment created in task 21, keep changes from task 32 as well.
     Add HTTP readiness and liveness check to make sure that the Counter app is working fine.
 
+    copy task21.yaml task42.yaml
+
+Update config by adding probes and apply:
+
+    k apply -n task42.yaml
+    
+Check:
+
+    k describe -n counter deploy counter-v2
+    k logs -n counter pod counter-v2-<id>
+    
 ## Task 43 - observability, counter
 
     Environment: your private cluster, namespace: counter
