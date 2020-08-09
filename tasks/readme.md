@@ -579,6 +579,12 @@ Update command and additional parameters and then execute:
     The pod should have a read-only filesystem.
     Make sure that the pod is running.
 
+    k run httpd-cs --image=httpd:alpine --namespace=web-servers -o yaml --dry-run=client > tasks/task37.yaml 
+
+Update pod with volume information and namespace, apply and verify:
+
+    k logs -n web-servers httpd-cs
+    
 ## Task 38 - pod design
 
     Environment: your private cluster, namespace: web-servers
