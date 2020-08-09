@@ -540,6 +540,14 @@ Add command and execute:
     Command: curl http://10.0.3.205:31386/?task=job-gp&name=your-name.
     Put your real name instead of your-name in the request. Image kamilbaran/training:app contains curl command.
 
+    k create job job-gp --image=kamilbaran/training:app --namespace=controllers -o yaml --dry-run=client > task34.yaml
+
+Update command and additional parameters and then execute:
+
+    k apply -f task34.yaml -n controllers
+    k describe -n controllers jobs.batch job-gp
+
+
 ## Task 35 - controllers
 
     Environment: your private cluster, namespace: controllers

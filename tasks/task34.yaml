@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: job-gp
+  namespace: controllers
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: kamilbaran/training:app
+        name: job-gp
+        command: ["curl", "http://10.0.3.205:31386/?task=job-gp&name=Patryk"]
+        resources: {}
+      restartPolicy: Never
+  completions: 10
+  parallelism: 2
