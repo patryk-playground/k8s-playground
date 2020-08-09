@@ -1,0 +1,24 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: job-cd
+  namespace: controllers
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: job-cd
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - image: kamilbaran/training:app
+            name: job-cd
+            command: ["curl", "http://10.0.3.205:31386/?task=job-cd&name=Patryk"]
+            resources: {}
+          restartPolicy: OnFailure
+  schedule: '*/5 * * * *'
+status: {}

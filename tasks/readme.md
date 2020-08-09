@@ -555,6 +555,14 @@ Update command and additional parameters and then execute:
     Command: curl http://10.0.3.205:31386/?task=job-cd&name=your-name.
     Put your real name instead of your-name in the request. Image kamilbaran/training:app contains curl command.
 
+    k create cronjob job-cd --image=kamilbaran/training:app --schedule="*/5 * * * *" --namespace=controllers --dry-run=client -o yaml > task35.yaml
+
+Update command and additional parameters and then execute:
+
+    k apply -f task35.yaml -n controllers
+    k describe -n controllers cronjobs.batch job-cd 
+
+
 ## Task 36 - pod design
 
     Environment: your private cluster, namespace: default
