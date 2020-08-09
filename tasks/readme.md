@@ -526,6 +526,12 @@ Update resource limits, apply till reach the lowest possible value that is neede
     The job should execute the following command curl http://10.0.3.205:31386/?task=job-at&name=your-name.
     Put your real name instead of your-name in the request. Image kamilbaran/training:app contains curl command.
 
+    k create job job-at --image=kamilbaran/training:app --namespace=controllers -o yaml --dry-run=client > task33.yaml
+    
+Add command and execute:
+
+    k apply -f task33.yaml -n controllers
+    k describe -n controllers jobs.batch job-at
 
 ## Task 34 - controllers
 

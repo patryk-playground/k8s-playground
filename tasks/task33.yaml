@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: job-at
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: kamilbaran/training:app
+        name: job-at
+        command: ["curl", "http://10.0.3.205:31386/?task=job-at&name=Patryk"]
+        resources: {}
+      restartPolicy: Never
+status: {}
