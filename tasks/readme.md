@@ -584,7 +584,7 @@ Update command and additional parameters and then execute:
 Update pod with volume information and namespace, apply and verify:
 
     k logs -n web-servers httpd-cs
-    
+
 ## Task 38 - pod design
 
     Environment: your private cluster, namespace: web-servers
@@ -592,12 +592,27 @@ Update pod with volume information and namespace, apply and verify:
     Drop all capabilities and add only required.
     Make sure that the pod is running.
 
+    k run httpd-dc --image=httpd:alpine --namespace=web-servers  --dry-run=client -o yaml > tasks/task38.yaml
+    k apply -f tasks/task38.yaml 
+
+Run pod. Check existing capabilities:
+
+    k exec -it -n web-servers httpd-dc -- cat /proc/1/status |grep Cap
+    capsh --decode=00000000a80425fb
+    k delete -f tasks/task38.yaml
+
+Add securityContext with capabilities and apply again:
+
+    k apply -f tasks/task38.yaml 
+
 ## Task 39 - pod design
 
     Environment: your private cluster, namespace: web-servers
     Create pod tomcat-dc based on tomcat:jdk11-openjdk-slim image.
     Drop all capabilities and add only required.
     Make sure that the pod is running.
+
+    k run httpd-dc --image=httpd:alpine --namespace=web-servers  --dry-run=client -o yaml > tasks/task38.yaml
 
 ## Task 40 - cluster config, troubleshooting
 
