@@ -667,7 +667,7 @@ Check:
 ## Task 43 - observability, counter
 
     Environment: your private cluster, namespace: counter
-    Update the mongo stateful set created in task 19.
+    Update the mongo stateful set created in task 19, keep changes from task 20 and 29.
     Force K8s to pull image every time the pod is recreated.
     Add readiness check that will verify that the Mongo is fully initialised (mongod status is primary or secondary).
     Use a script /data/readiness.sh directory. The first execution should be 5 seconds after starting the container and then run it it every 10 seconds.
