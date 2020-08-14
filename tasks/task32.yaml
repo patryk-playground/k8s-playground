@@ -24,10 +24,10 @@ spec:
         name: training
         resources:
           requests:
-            memory: "7Mi"
+            memory: "10Mi"
             cpu: "100m"
           limits:
-            memory: "7Mi"
+            memory: "10Mi"
             cpu: "100m"
         env:
           - name: MONGO_CS
