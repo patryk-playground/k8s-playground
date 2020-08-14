@@ -41,6 +41,13 @@ spec:
         - containerPort: 27017
           name: mongo
         command: ["/usr/bin/mongod", "--bind_ip_all", "--replSet=test"]
+        imagePullPolicy: Always
+        readinessProbe:
+          exec:
+            command:
+              - /data/readiness.sh
+          initialDelaySeconds: 5
+          periodSeconds: 10
       dnsConfig:
         searches:
           - mongo.counter.svc.cluster.local
