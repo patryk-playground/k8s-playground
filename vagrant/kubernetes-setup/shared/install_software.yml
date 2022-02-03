@@ -1,5 +1,6 @@
 ---
 
+# Docker runtime
   - name: Install packages that allow apt to be used over HTTPS
     apt:
       name: "{{ packages }}"
@@ -10,8 +11,13 @@
       - apt-transport-https
       - ca-certificates
       - curl
-      - gnupg-agent
+      - gnupg2
       - software-properties-common
+
+  - name: Retrieve Linux distro release version
+    command: lsb_release -cs
+    register: _distro_release
+    changed_when: False
 
   - name: Add an apt signing key for Docker
     apt_key:
@@ -20,7 +26,8 @@
 
   - name: Add apt repository for stable version
     apt_repository:
-      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ _distro_release.stdout }} stable
+      mode: 600
       state: present
 
   - name: Install docker and its dependecies
@@ -41,18 +48,19 @@
       name: vagrant
       group: docker
 
-  - name: Remove swapfile from /etc/fstab
-    mount:
-      name: "{{ item }}"
-      fstype: swap
-      state: absent
-    with_items:
-      - swap
-      - none
+# Kubernetes tools
+  - name: Let iptables see bridged traffic 
+    copy: 
+      src: files/k8s.j2
+      dest: /etc/sysctl.d/k8s.conf
+      mode: 0600
+    register: _sysctl_update
 
-  - name: Disable swap
-    command: swapoff -a
-    when: ansible_swaptotal_mb > 0
+  - when: _sysctl_update.changed
+    name: Restart sysctl 
+    command: sysctl --system
+
+  - meta: end_play
 
   - name: Add an apt signing key for Kubernetes
     apt_key:
@@ -62,8 +70,9 @@
   - name: Adding apt repository for Kubernetes
     apt_repository:
       repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
-      state: present
+      mode: 600
       filename: kubernetes.list
+      state: present
 
   - name: Install Kubernetes binaries
     apt: 
@@ -76,13 +85,22 @@
         - kubeadm 
         - kubectl
 
-  - name: Configure node ip
-    lineinfile:
-      path: /etc/default/kubelet
-      line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
+  - name: Hold Kubernetes binaries
+    dpkg_selections:
+      name: "{{ item }}"
+      selection: hold
+    with_items:
+        - kubelet 
+        - kubeadm 
+        - kubectl
 
-  - name: Restart kubelet
-    service:
-      name: kubelet
-      daemon_reload: yes
-      state: restarted
+  # - name: Configure node ip
+  #   lineinfile:
+  #     path: /etc/default/kubelet
+  #     line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
+
+  # - name: Restart kubelet
+  #   service:
+  #     name: kubelet
+  #     daemon_reload: yes
+  #     state: restarted

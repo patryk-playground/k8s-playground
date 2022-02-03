@@ -1,33 +1,51 @@
 ---
 
-- hosts: all
+- hosts: master
   become: true
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
-  tasks:
-  - include: install_software.yml
-
-  - name: Initialize the Kubernetes cluster using kubeadm
-    command: kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10"  --node-name master --pod-network-cidr=192.168.0.0/16
-
-  - name: Setup kubeconfig for vagrant user
-    command: "{{ item }}"
-    with_items:
-     - mkdir -p /home/vagrant/.kube
-     - cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
-     - chown vagrant:vagrant /home/vagrant/.kube/config
-
-  - name: Install calico pod network
-    become: false
-    command: kubectl create -f https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/hosted/calico.yaml
-
-  - name: Generate join command
-    command: kubeadm token create --print-join-command
-    register: join_command
-
-  - name: Copy join command to local file
-    local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
+  vars_files:
+    - env_variables.yml
 
   handlers:
-    - name: docker status
-      service: name=docker state=started
+  - name: docker status
+    service: name=docker state=started
+
+  tasks:
+  - import_tasks: shared/disable_swap.yml 
+  - import_tasks: shared/install_software.yml
+
+  # - name: Verify whether API server was initialized already
+  #   stat:
+  #     path: /etc/kubernetes/manifests/kube-apiserver.yaml
+  #   register: _config
+
+  # - debug: 
+  #     var: _config
+
+  # - when: _config.stat.islnk is not defined
+  #   block:
+  #   - name: Initialize the Kubernetes cluster using kubeadm
+  #     command: kubeadm init --apiserver-advertise-address={{ net_advertise_addr }} --apiserver-cert-extra-sans={{ net_advertise_addr }}  --node-name {{ net_hostname_master }} --pod-network-cidr={{ net_pod_cidr }}
+
+  #   - name: Wait for api-server port is reachable
+  #     wait_for:
+  #       port: "{{ api_server_port }}"
+  #       state: present
+  #       delay: 5
+
+  #   - name: Setup kubeconfig for vagrant user
+  #     command: "{{ item }}"
+  #     with_items:
+  #     - mkdir -p /home/vagrant/.kube
+  #     - cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+  #     - chown vagrant:vagrant /home/vagrant/.kube/config
+
+  # - name: Install calico pod network
+  #   become: false
+  #   command: kubectl create -f https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/hosted/calico.yaml
+
+  # - name: Generate join command
+  #   command: kubeadm token create --print-join-command
+  #   register: join_command
+
+  # - name: Copy join command to local file
+  #   local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
